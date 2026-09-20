@@ -127,4 +127,1110 @@
     .card-value {
       margin-top: 8px;
       font-size: 1.65rem;
-      font-weight:
+      font-weight: 800;
+      color: var(--verde-900);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      padding: 7px;
+      margin-bottom: 16px;
+      background: #dfe9e5;
+      border-radius: 14px;
+      overflow-x: auto;
+    }
+
+    .tab {
+      flex: 1 0 170px;
+      border: 0;
+      padding: 12px 18px;
+      border-radius: 10px;
+      color: #395049;
+      background: transparent;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background: var(--blanco);
+      color: var(--verde-900);
+      box-shadow: 0 4px 14px rgba(18, 61, 53, 0.12);
+    }
+
+    .panel {
+      background: var(--blanco);
+      border: 1px solid var(--borde);
+      border-radius: 16px;
+      box-shadow: var(--sombra);
+      overflow: hidden;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns:
+        minmax(230px, 2fr)
+        repeat(2, minmax(170px, 1fr))
+        auto;
+      gap: 12px;
+      align-items: end;
+      padding: 16px;
+      border-bottom: 1px solid var(--borde);
+    }
+
+    label {
+      display: block;
+      margin: 0 0 6px 2px;
+      color: var(--suave);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    input,
+    select {
+      width: 100%;
+      height: 44px;
+      border: 1px solid #bdcbc5;
+      border-radius: 10px;
+      padding: 0 12px;
+      color: var(--texto);
+      background: white;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--verde-700);
+      box-shadow: 0 0 0 3px rgba(36, 107, 88, 0.13);
+    }
+
+    .clear {
+      height: 44px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      padding: 0 16px;
+      background: #f7faf9;
+      color: var(--verde-900);
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .resultbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 16px;
+      color: var(--suave);
+      font-size: 0.88rem;
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .table-wrap {
+      width: 100%;
+      max-height: calc(100vh - 365px);
+      min-height: 310px;
+      overflow: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      white-space: nowrap;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      padding: 12px 13px;
+      background: var(--verde-900);
+      color: white;
+      text-align: left;
+      font-size: 0.78rem;
+      letter-spacing: 0.035em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    th:hover {
+      background: var(--verde-800);
+    }
+
+    td {
+      padding: 11px 13px;
+      border-bottom: 1px solid #e7eeeb;
+      font-size: 0.88rem;
+      vertical-align: middle;
+    }
+
+    tbody tr:hover td {
+      background: var(--verde-50);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .sticky-first {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      background: white;
+      box-shadow: 5px 0 10px rgba(18, 61, 53, 0.05);
+    }
+
+    th.sticky-first {
+      z-index: 5;
+      background: var(--verde-900);
+    }
+
+    tbody tr:hover .sticky-first {
+      background: var(--verde-50);
+    }
+
+    .name {
+      font-weight: 750;
+      color: var(--verde-950);
+    }
+
+    .secondary {
+      margin-top: 3px;
+      color: var(--suave);
+      font-size: 0.78rem;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    .status::before {
+      font-size: 0.84rem;
+    }
+
+    .ok {
+      color: #087443;
+      background: #e3f6ec;
+    }
+
+    .ok::before {
+      content: "✓";
+    }
+
+    .warn {
+      color: var(--amarillo);
+      background: var(--amarillo-fondo);
+    }
+
+    .warn::before {
+      content: "!";
+    }
+
+    .bad {
+      color: var(--rojo);
+      background: var(--rojo-fondo);
+    }
+
+    .bad::before {
+      content: "✕";
+    }
+
+    .none {
+      color: var(--gris);
+      background: var(--gris-fondo);
+    }
+
+    .none::before {
+      content: "—";
+    }
+
+    .date {
+      margin-top: 4px;
+      color: var(--suave);
+      font-size: 0.73rem;
+      text-align: center;
+    }
+
+    .empty,
+    .loading,
+    .error {
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--suave);
+    }
+
+    .error {
+      color: var(--rojo);
+    }
+
+    @media (max-width: 900px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .table-wrap {
+        max-height: none;
+      }
+    }
+
+    @media (max-width: 580px) {
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .updated {
+        text-align: left;
+      }
+
+      main {
+        padding-top: 14px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+      }
+
+      .card {
+        padding: 13px;
+      }
+
+      .card-value {
+        font-size: 1.35rem;
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .clear {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+
+      <div>
+        <h1>CONTROL DOCUMENTAL</h1>
+        <div class="subtitulo">Carga Camiones</div>
+      </div>
+
+      <div class="updated" id="updated">
+        Cargando información…
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+
+    <section class="cards" aria-label="Resumen">
+
+      <article class="card">
+        <div class="card-label" id="totalLabel">Registros</div>
+        <div class="card-value" id="totalValue">—</div>
+      </article>
+
+      <article class="card">
+        <div class="card-label">Vigentes</div>
+        <div class="card-value" id="okValue">—</div>
+      </article>
+
+      <article class="card">
+        <div class="card-label">Por vencer</div>
+        <div class="card-value" id="warnValue">—</div>
+      </article>
+
+      <article class="card">
+        <div class="card-label">Observados</div>
+        <div class="card-value" id="badValue">—</div>
+      </article>
+
+    </section>
+
+    <nav class="tabs" aria-label="Secciones">
+
+      <button class="tab active" data-view="empresas">
+        EMPRESAS
+      </button>
+
+      <button class="tab" data-view="vehiculos">
+        VEHÍCULOS
+      </button>
+
+      <button class="tab" data-view="conductores">
+        CONDUCTORES
+      </button>
+
+    </nav>
+
+    <section class="panel">
+
+      <div class="toolbar">
+
+        <div>
+          <label for="search">BUSCAR</label>
+          <input
+            id="search"
+            type="search"
+            placeholder="Empresa, matrícula o conductor…"
+            autocomplete="off"
+          >
+        </div>
+
+        <div>
+          <label for="companyFilter">EMPRESA</label>
+
+          <select id="companyFilter">
+            <option value="">Todas</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="statusFilter">ESTADO GENERAL</label>
+
+          <select id="statusFilter">
+            <option value="">Todos</option>
+          </select>
+        </div>
+
+        <button class="clear" id="clearFilters" type="button">
+          Limpiar
+        </button>
+
+      </div>
+
+      <div class="resultbar">
+
+        <span id="resultCount">
+          Cargando…
+        </span>
+
+        <span>
+          Haz clic en un encabezado para ordenar
+        </span>
+
+      </div>
+
+      <div class="table-wrap" id="tableWrap">
+
+        <div class="loading">
+          Cargando datos documentales…
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+    const ARCHIVO_JSON = "./ControlDocumental.json";
+
+    const estado = {
+      datos: null,
+      vista: "empresas",
+      ordenarPor: null,
+      ordenAscendente: true
+    };
+
+    const configuraciones = {
+      empresas: {
+        etiqueta: "Empresas",
+
+        empresa: registro =>
+          registro.empresa_carga_camiones,
+
+        columnas: [
+          [
+            "empresa_carga_camiones",
+            "Empresa",
+            "nombre"
+          ],
+          [
+            "estado_bps",
+            "BPS",
+            "documento",
+            "bps_date"
+          ],
+          [
+            "estado_dgi",
+            "DGI",
+            "documento",
+            "dgi_date"
+          ],
+          [
+            "estado_bse_accidentes",
+            "BSE accidentes",
+            "documento",
+            "bse_acc_date"
+          ],
+          [
+            "estado_factura_bps",
+            "Factura BPS",
+            "documento",
+            "fact_bps_date"
+          ],
+          [
+            "estado_general",
+            "Estado general",
+            "estado"
+          ]
+        ]
+      },
+
+      vehiculos: {
+        etiqueta: "Vehículos",
+
+        empresa: registro =>
+          registro.empresa,
+
+        columnas: [
+          [
+            "matricula_carga_camiones",
+            "Matrícula",
+            "nombre"
+          ],
+          [
+            "tipo_unidad_carga",
+            "Unidad",
+            "texto"
+          ],
+          [
+            "empresa",
+            "Empresa",
+            "texto"
+          ],
+          [
+            "category",
+            "Categoría",
+            "texto"
+          ],
+          [
+            "vehicle_type",
+            "Tipo vehículo",
+            "texto"
+          ],
+          [
+            "estado_activo",
+            "Activo",
+            "estado"
+          ],
+          [
+            "estado_applus",
+            "APPLUS",
+            "documento",
+            "applus_date"
+          ],
+          [
+            "estado_soa",
+            "SOA",
+            "documento",
+            "soa_date"
+          ],
+          [
+            "estado_general",
+            "Estado general",
+            "estado"
+          ]
+        ]
+      },
+
+      conductores: {
+        etiqueta: "Conductores",
+
+        empresa: registro =>
+          registro.empresa,
+
+        columnas: [
+          [
+            "conductor_carga_camiones",
+            "Conductor",
+            "nombre",
+            "ci_carga_camiones"
+          ],
+          [
+            "empresa",
+            "Empresa",
+            "texto"
+          ],
+          [
+            "destino",
+            "Destino",
+            "texto"
+          ],
+          [
+            "estado_driver_license",
+            "Libreta",
+            "documento",
+            "driver_license"
+          ],
+          [
+            "estado_health_meat",
+            "Carné salud",
+            "documento",
+            "health_meat"
+          ],
+          [
+            "estado_identity_card",
+            "Cédula",
+            "documento",
+            "identity_card"
+          ],
+          [
+            "estado_psychotechnician",
+            "Psicotécnico",
+            "documento",
+            "psychotechnician"
+          ],
+          [
+            "estado_upm",
+            "UPM",
+            "documento",
+            "upm"
+          ],
+          [
+            "estado_green_card",
+            "Tarjeta verde",
+            "documento",
+            "green_card"
+          ],
+          [
+            "estado_fas_instructions",
+            "Instructivo FAS",
+            "estado"
+          ],
+          [
+            "estado_mtss",
+            "MTSS",
+            "estado"
+          ],
+          [
+            "estado_bps",
+            "BPS",
+            "estado"
+          ],
+          [
+            "estado_general",
+            "Estado general",
+            "estado"
+          ]
+        ]
+      }
+    };
+
+    function elemento(id) {
+      return document.getElementById(id);
+    }
+
+    function escaparHTML(valor) {
+      return String(valor ?? "").replace(
+        /[&<>'"]/g,
+        caracter => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          "'": "&#39;",
+          '"': "&quot;"
+        })[caracter]
+      );
+    }
+
+    function normalizar(valor) {
+      return String(valor ?? "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase();
+    }
+
+    function formatearFecha(valor) {
+      if (!valor) {
+        return "";
+      }
+
+      const partes = String(valor)
+        .slice(0, 10)
+        .split("-");
+
+      const anio = partes[0];
+      const mes = partes[1];
+      const dia = partes[2];
+
+      if (!anio || !mes || !dia) {
+        return valor;
+      }
+
+      return `${dia}/${mes}/${anio}`;
+    }
+
+    function claseEstado(valor) {
+      const texto = normalizar(valor);
+
+      if (
+        texto === "VIGENTE" ||
+        texto === "CUMPLE" ||
+        texto === "ACTIVO"
+      ) {
+        return "ok";
+      }
+
+      if (texto === "POR VENCER") {
+        return "warn";
+      }
+
+      if (
+        texto === "VENCIDO" ||
+        texto === "NO CUMPLE" ||
+        texto === "INACTIVO"
+      ) {
+        return "bad";
+      }
+
+      return "none";
+    }
+
+    function crearEstado(valor) {
+      const texto = valor || "SIN INFORMACION";
+
+      return `
+        <span class="status ${claseEstado(texto)}">
+          ${escaparHTML(texto)}
+        </span>
+      `;
+    }
+
+    function crearCelda(registro, columna) {
+      const campo = columna[0];
+      const tipo = columna[2];
+      const campoExtra = columna[3];
+
+      const valor = registro[campo];
+
+      if (tipo === "estado") {
+        return crearEstado(valor);
+      }
+
+      if (tipo === "documento") {
+        const fecha = registro[campoExtra];
+
+        return `
+          ${crearEstado(valor)}
+          ${
+            fecha
+              ? `<div class="date">${formatearFecha(fecha)}</div>`
+              : ""
+          }
+        `;
+      }
+
+      if (tipo === "nombre") {
+        return `
+          <div class="name">
+            ${escaparHTML(valor || "SIN INFORMACION")}
+          </div>
+
+          ${
+            campoExtra && registro[campoExtra]
+              ? `
+                <div class="secondary">
+                  ${escaparHTML(registro[campoExtra])}
+                </div>
+              `
+              : ""
+          }
+        `;
+      }
+
+      return escaparHTML(valor ?? "");
+    }
+
+    function registrosActuales() {
+      if (!estado.datos) {
+        return [];
+      }
+
+      return estado.datos[estado.vista] || [];
+    }
+
+    function completarFiltros() {
+      const configuracion =
+        configuraciones[estado.vista];
+
+      const registros =
+        registrosActuales();
+
+      const empresas = [
+        ...new Set(
+          registros
+            .map(configuracion.empresa)
+            .filter(Boolean)
+        )
+      ].sort((a, b) =>
+        a.localeCompare(b, "es")
+      );
+
+      elemento("companyFilter").innerHTML =
+        `<option value="">Todas</option>` +
+        empresas
+          .map(
+            empresa =>
+              `<option value="${escaparHTML(empresa)}">
+                ${escaparHTML(empresa)}
+              </option>`
+          )
+          .join("");
+
+      const estados = [
+        ...new Set(
+          registros
+            .map(registro => registro.estado_general)
+            .filter(Boolean)
+        )
+      ].sort();
+
+      elemento("statusFilter").innerHTML =
+        `<option value="">Todos</option>` +
+        estados
+          .map(
+            valor =>
+              `<option value="${escaparHTML(valor)}">
+                ${escaparHTML(valor)}
+              </option>`
+          )
+          .join("");
+    }
+
+    function obtenerRegistrosFiltrados() {
+      const configuracion =
+        configuraciones[estado.vista];
+
+      const textoBuscar =
+        normalizar(elemento("search").value);
+
+      const empresaSeleccionada =
+        elemento("companyFilter").value;
+
+      const estadoSeleccionado =
+        elemento("statusFilter").value;
+
+      let registros = registrosActuales().filter(
+        registro => {
+          const contenidoRegistro = normalizar(
+            Object.values(registro).join(" ")
+          );
+
+          const coincideTexto =
+            !textoBuscar ||
+            contenidoRegistro.includes(textoBuscar);
+
+          const coincideEmpresa =
+            !empresaSeleccionada ||
+            configuracion.empresa(registro) ===
+              empresaSeleccionada;
+
+          const coincideEstado =
+            !estadoSeleccionado ||
+            registro.estado_general ===
+              estadoSeleccionado;
+
+          return (
+            coincideTexto &&
+            coincideEmpresa &&
+            coincideEstado
+          );
+        }
+      );
+
+      if (estado.ordenarPor) {
+        registros.sort((registroA, registroB) => {
+          const valorA = normalizar(
+            registroA[estado.ordenarPor]
+          );
+
+          const valorB = normalizar(
+            registroB[estado.ordenarPor]
+          );
+
+          return (
+            valorA.localeCompare(
+              valorB,
+              "es",
+              { numeric: true }
+            ) *
+            (estado.ordenAscendente ? 1 : -1)
+          );
+        });
+      }
+
+      return registros;
+    }
+
+    function actualizarTarjetas() {
+      const registros = registrosActuales();
+
+      const vigentes = registros.filter(
+        registro =>
+          normalizar(registro.estado_general) ===
+          "VIGENTE"
+      ).length;
+
+      const porVencer = registros.filter(
+        registro =>
+          normalizar(registro.estado_general) ===
+          "POR VENCER"
+      ).length;
+
+      const observados = registros.filter(
+        registro =>
+          ![
+            "VIGENTE",
+            "POR VENCER"
+          ].includes(
+            normalizar(registro.estado_general)
+          )
+      ).length;
+
+      elemento("totalLabel").textContent =
+        configuraciones[estado.vista].etiqueta;
+
+      elemento("totalValue").textContent =
+        registros.length.toLocaleString("es-UY");
+
+      elemento("okValue").textContent =
+        vigentes.toLocaleString("es-UY");
+
+      elemento("warnValue").textContent =
+        porVencer.toLocaleString("es-UY");
+
+      elemento("badValue").textContent =
+        observados.toLocaleString("es-UY");
+    }
+
+    function renderizar() {
+      const configuracion =
+        configuraciones[estado.vista];
+
+      const registros =
+        obtenerRegistrosFiltrados();
+
+      actualizarTarjetas();
+
+      elemento("resultCount").textContent =
+        `Mostrando ${registros.length.toLocaleString("es-UY")} ` +
+        `de ${registrosActuales().length.toLocaleString("es-UY")} registros`;
+
+      if (registros.length === 0) {
+        elemento("tableWrap").innerHTML = `
+          <div class="empty">
+            No hay registros para los filtros seleccionados.
+          </div>
+        `;
+
+        return;
+      }
+
+      const encabezados = configuracion.columnas
+        .map((columna, indice) => {
+          const campo = columna[0];
+          const titulo = columna[1];
+
+          let indicadorOrden = "";
+
+          if (estado.ordenarPor === campo) {
+            indicadorOrden =
+              estado.ordenAscendente ? " ↑" : " ↓";
+          }
+
+          return `
+            <th
+              class="${indice === 0 ? "sticky-first" : ""}"
+              data-key="${campo}"
+            >
+              ${escaparHTML(titulo)}${indicadorOrden}
+            </th>
+          `;
+        })
+        .join("");
+
+      const filas = registros
+        .map(registro => {
+          const celdas = configuracion.columnas
+            .map((columna, indice) => {
+              return `
+                <td class="${indice === 0 ? "sticky-first" : ""}">
+                  ${crearCelda(registro, columna)}
+                </td>
+              `;
+            })
+            .join("");
+
+          return `<tr>${celdas}</tr>`;
+        })
+        .join("");
+
+      elemento("tableWrap").innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              ${encabezados}
+            </tr>
+          </thead>
+
+          <tbody>
+            ${filas}
+          </tbody>
+        </table>
+      `;
+
+      document
+        .querySelectorAll("th[data-key]")
+        .forEach(encabezado => {
+          encabezado.addEventListener(
+            "click",
+            () => {
+              const campo =
+                encabezado.dataset.key;
+
+              if (estado.ordenarPor === campo) {
+                estado.ordenAscendente =
+                  !estado.ordenAscendente;
+              } else {
+                estado.ordenarPor = campo;
+                estado.ordenAscendente = true;
+              }
+
+              renderizar();
+            }
+          );
+        });
+    }
+
+    function cambiarVista(vista) {
+      estado.vista = vista;
+      estado.ordenarPor = null;
+      estado.ordenAscendente = true;
+
+      document
+        .querySelectorAll(".tab")
+        .forEach(boton => {
+          boton.classList.toggle(
+            "active",
+            boton.dataset.view === vista
+          );
+        });
+
+      elemento("search").value = "";
+      elemento("companyFilter").value = "";
+      elemento("statusFilter").value = "";
+
+      completarFiltros();
+      renderizar();
+    }
+
+    async function cargarDatos() {
+      try {
+        const respuesta = await fetch(
+          `${ARCHIVO_JSON}?v=${Date.now()}`,
+          {
+            cache: "no-store"
+          }
+        );
+
+        if (!respuesta.ok) {
+          throw new Error(
+            `Error HTTP ${respuesta.status}`
+          );
+        }
+
+        estado.datos = await respuesta.json();
+
+        elemento("updated").textContent =
+          `Actualizado: ${
+            estado.datos.actualizado ||
+            "sin fecha"
+          }`;
+
+        completarFiltros();
+        renderizar();
+
+      } catch (error) {
+        elemento("updated").textContent =
+          "No se pudo cargar la información";
+
+        elemento("tableWrap").innerHTML = `
+          <div class="error">
+            <strong>
+              Error al cargar ControlDocumental.json
+            </strong>
+
+            <br><br>
+
+            Comprueba que el archivo esté en la misma
+            carpeta que index.html.
+          </div>
+        `;
+
+        console.error(error);
+      }
+    }
+
+    document
+      .querySelectorAll(".tab")
+      .forEach(boton => {
+        boton.addEventListener(
+          "click",
+          () => cambiarVista(
+            boton.dataset.view
+          )
+        );
+      });
+
+    elemento("search").addEventListener(
+      "input",
+      renderizar
+    );
+
+    elemento("companyFilter").addEventListener(
+      "change",
+      renderizar
+    );
+
+    elemento("statusFilter").addEventListener(
+      "change",
+      renderizar
+    );
+
+    elemento("clearFilters").addEventListener(
+      "click",
+      () => {
+        elemento("search").value = "";
+        elemento("companyFilter").value = "";
+        elemento("statusFilter").value = "";
+
+        renderizar();
+      }
+    );
+
+    cargarDatos();
+  </script>
+
+</body>
+</html>
