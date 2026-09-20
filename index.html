@@ -47,6 +47,15 @@
     .resultbar { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 16px; color:var(--muted); font-size:.88rem; border-bottom:1px solid var(--line); }
     .table-wrap { width:100%; overflow:auto; max-height:calc(100vh - 365px); min-height:310px; }
     table { width:100%; border-collapse:separate; border-spacing:0; white-space:nowrap; }
+    .view-empresas { table-layout:fixed !important; width:100% !important; min-width:900px; }
+    .view-empresas th,
+    .view-empresas td {
+      width:16.6667% !important;
+      min-width:16.6667% !important;
+      max-width:16.6667% !important;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
     th { position:sticky; top:0; z-index:3; padding:9px 11px; background:var(--green-900); color:#fff; text-align:center; font-size:.78rem; letter-spacing:.035em; text-transform:uppercase; cursor:pointer; }
     th:hover { background:var(--green-800); }
     td { padding:7px 11px; border-bottom:1px solid #e7eeeb; font-size:.88rem; text-align:center; vertical-align:middle; }
@@ -99,7 +108,7 @@
       <article class="card"><div class="card-label" id="totalLabel">Registros</div><div class="card-value" id="totalValue">—</div></article>
       <article class="card"><div class="card-label">Vigentes</div><div class="card-value" id="okValue">—</div></article>
       <article class="card"><div class="card-label">Por vencer</div><div class="card-value" id="warnValue">—</div></article>
-      <article class="card"><div class="card-label">Observados</div><div class="card-value" id="badValue">—</div></article>
+      <article class="card"><div class="card-label">Vencidos</div><div class="card-value" id="badValue">—</div></article>
       <button class="card trozas-card" id="trozasCard" type="button" title="Mostrar conductores de Las Acacias con documentos vencidos">
         <div class="card-label">TROZAS UPM</div>
         <div class="card-value" id="trozasValue">—</div>
@@ -255,7 +264,7 @@
       $('totalValue').textContent=all.length.toLocaleString('es-UY');
       $('okValue').textContent=all.filter(r=>normalize(r.estado_general)==='VIGENTE').length.toLocaleString('es-UY');
       $('warnValue').textContent=all.filter(r=>normalize(r.estado_general)==='POR VENCER').length.toLocaleString('es-UY');
-      $('badValue').textContent=all.filter(r=>!['VIGENTE','POR VENCER'].includes(normalize(r.estado_general))).length.toLocaleString('es-UY');
+      $('badValue').textContent=all.filter(r=>normalize(r.estado_general)==='VENCIDO').length.toLocaleString('es-UY');
       const trozasCard=$('trozasCard');
       const trozasRows=state.data?.conductores || [];
       const trozasCount=trozasRows.filter(isTrozasRisk).length;
@@ -272,7 +281,10 @@
       if (!rows.length) { $('tableWrap').innerHTML='<div class="empty">No hay registros para los filtros seleccionados.</div>'; return; }
       const head=cfg.columns.map((c,i)=>`<th class="${i===0?'sticky-first':''}" data-key="${c[0]}">${esc(c[1])}${state.sortKey===c[0]?(state.sortAsc?' ↑':' ↓'):''}</th>`).join('');
       const body=rows.map(row=>`<tr>${cfg.columns.map((c,i)=>`<td class="${i===0?'sticky-first':''}">${renderCell(row,c)}</td>`).join('')}</tr>`).join('');
-      $('tableWrap').innerHTML=`<table class="view-${state.view}"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+      const companyColumns=state.view==='empresas'
+        ? '<colgroup><col width="16.6667%"><col width="16.6667%"><col width="16.6667%"><col width="16.6667%"><col width="16.6667%"><col width="16.6667%"></colgroup>'
+        : '';
+      $('tableWrap').innerHTML=`<table class="view-${state.view}">${companyColumns}<thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
       document.querySelectorAll('th[data-key]').forEach(th=>th.addEventListener('click',()=>{
         const key=th.dataset.key;
         if(state.sortKey===key) state.sortAsc=!state.sortAsc; else { state.sortKey=key; state.sortAsc=true; }
