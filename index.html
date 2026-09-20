@@ -25,7 +25,7 @@
     h1 { margin:0; font-size:clamp(1.35rem,2.3vw,2rem); letter-spacing:.02em; }
     .updated { color:#d8ebe4; font-size:.88rem; text-align:right; }
     main { max-width:1800px; margin:0 auto; padding:22px clamp(12px,2.4vw,34px) 38px; }
-    .cards { display:grid; grid-template-columns:repeat(5,minmax(150px,1fr)); gap:14px; margin-bottom:18px; }
+    .overview { display:grid; grid-template-columns:minmax(180px,230px) minmax(180px,230px) minmax(420px,1fr); gap:14px; margin-bottom:18px; align-items:stretch; }
     .card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px; text-align:center; box-shadow:var(--shadow); }
     .card-label { color:var(--muted); font-size:.82rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
     .card-value { margin-top:8px; font-size:1.65rem; font-weight:800; color:var(--green-900); }
@@ -35,6 +35,17 @@
     .trozas-card.safe { border-color:#9dd9bb; background:#effaf4; }
     .trozas-card.safe .card-value { color:#087443; }
     .trozas-card.active { outline:3px solid rgba(180,35,24,.18); }
+    .summary-card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:0; overflow:hidden; box-shadow:var(--shadow); }
+    .summary-title { padding:10px 14px; color:var(--green-900); font-size:.82rem; font-weight:800; letter-spacing:.05em; text-align:center; text-transform:uppercase; border-bottom:1px solid var(--line); }
+    .summary-table { width:100%; min-width:0; table-layout:fixed; border-collapse:collapse; }
+    .summary-table th { position:static; padding:7px 10px; background:#e8f0ed; color:var(--green-950); font-size:.74rem; cursor:default; }
+    .summary-table th:hover { background:#e8f0ed; }
+    .summary-table td { padding:6px 10px; font-size:.82rem; }
+    .summary-table th:first-child,.summary-table td:first-child { width:44%; text-align:left; font-weight:750; }
+    .summary-table th:nth-child(2),.summary-table td:nth-child(2),
+    .summary-table th:nth-child(3),.summary-table td:nth-child(3) { width:28%; text-align:center; }
+    .summary-warn { color:var(--amber); font-weight:850; }
+    .summary-bad { color:var(--red); font-weight:850; }
     .tabs { display:flex; gap:8px; padding:7px; background:#dfe9e5; border-radius:14px; overflow-x:auto; margin-bottom:16px; }
     .tab { flex:1 0 170px; border:0; padding:12px 18px; border-radius:10px; color:#395049; background:transparent; font-weight:800; cursor:pointer; }
     .tab.active { background:var(--surface); color:var(--green-900); box-shadow:0 4px 14px rgba(18,61,53,.12); }
@@ -76,7 +87,8 @@
     .empty,.loading,.error { padding:60px 20px; text-align:center; color:var(--muted); }
     .error { color:var(--red); }
     @media (max-width:900px) {
-      .cards { grid-template-columns:repeat(2,1fr); }
+      .overview { grid-template-columns:1fr 1fr; }
+      .summary-card { grid-column:1 / -1; }
       .toolbar { grid-template-columns:1fr 1fr; }
       .table-wrap { max-height:none; }
     }
@@ -84,7 +96,7 @@
       .topbar-inner { align-items:flex-start; flex-direction:column; }
       .updated { text-align:left; }
       main { padding-top:14px; }
-      .cards { grid-template-columns:1fr 1fr; gap:9px; }
+      .overview { grid-template-columns:1fr 1fr; gap:9px; }
       .card { padding:13px; }
       .card-value { font-size:1.35rem; }
       .toolbar { grid-template-columns:1fr; }
@@ -104,15 +116,23 @@
   </header>
 
   <main>
-    <section class="cards" id="cards" aria-label="Resumen">
+    <section class="overview" aria-label="Resumen">
       <article class="card"><div class="card-label" id="totalLabel">Registros</div><div class="card-value" id="totalValue">—</div></article>
-      <article class="card"><div class="card-label">Vigentes</div><div class="card-value" id="okValue">—</div></article>
-      <article class="card"><div class="card-label">Por vencer</div><div class="card-value" id="warnValue">—</div></article>
-      <article class="card"><div class="card-label">Vencidos</div><div class="card-value" id="badValue">—</div></article>
       <button class="card trozas-card" id="trozasCard" type="button" title="Mostrar conductores de Las Acacias con documentos vencidos">
         <div class="card-label">TROZAS UPM</div>
         <div class="card-value" id="trozasValue">—</div>
       </button>
+      <article class="summary-card">
+        <div class="summary-title">Resumen documental</div>
+        <table class="summary-table">
+          <thead><tr><th>Tipo documental</th><th>Por vencer</th><th>Vencidos</th></tr></thead>
+          <tbody>
+            <tr><td>Empresas</td><td class="summary-warn" id="summaryEmpresasWarn">—</td><td class="summary-bad" id="summaryEmpresasBad">—</td></tr>
+            <tr><td>Vehículos</td><td class="summary-warn" id="summaryVehiculosWarn">—</td><td class="summary-bad" id="summaryVehiculosBad">—</td></tr>
+            <tr><td>Conductores</td><td class="summary-warn" id="summaryConductoresWarn">—</td><td class="summary-bad" id="summaryConductoresBad">—</td></tr>
+          </tbody>
+        </table>
+      </article>
     </section>
 
     <nav class="tabs" aria-label="Secciones">
@@ -262,9 +282,13 @@
       const all=currentRows();
       $('totalLabel').textContent=configs[state.view].label;
       $('totalValue').textContent=all.length.toLocaleString('es-UY');
-      $('okValue').textContent=all.filter(r=>normalize(r.estado_general)==='VIGENTE').length.toLocaleString('es-UY');
-      $('warnValue').textContent=all.filter(r=>normalize(r.estado_general)==='POR VENCER').length.toLocaleString('es-UY');
-      $('badValue').textContent=all.filter(r=>normalize(r.estado_general)==='VENCIDO').length.toLocaleString('es-UY');
+      const summaryCount=(section,status)=>(state.data?.[section] || []).filter(r=>normalize(r.estado_general)===status).length.toLocaleString('es-UY');
+      $('summaryEmpresasWarn').textContent=summaryCount('empresas','POR VENCER');
+      $('summaryEmpresasBad').textContent=summaryCount('empresas','VENCIDO');
+      $('summaryVehiculosWarn').textContent=summaryCount('vehiculos','POR VENCER');
+      $('summaryVehiculosBad').textContent=summaryCount('vehiculos','VENCIDO');
+      $('summaryConductoresWarn').textContent=summaryCount('conductores','POR VENCER');
+      $('summaryConductoresBad').textContent=summaryCount('conductores','VENCIDO');
       const trozasCard=$('trozasCard');
       const trozasRows=state.data?.conductores || [];
       const trozasCount=trozasRows.filter(isTrozasRisk).length;
