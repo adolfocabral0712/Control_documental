@@ -5,1232 +5,266 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#123d35">
-
-  <title>Control Documental</title>
-
+  <title>Control documental</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23123d35'/%3E%3Cpath d='M19 12h20l8 8v32H19z' fill='%23fff'/%3E%3Cpath d='M39 12v10h10' fill='none' stroke='%2399d98c' stroke-width='4'/%3E%3Cpath d='m25 36 5 5 10-12' fill='none' stroke='%232a9d68' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <style>
     :root {
-      --verde-950: #0b2b26;
-      --verde-900: #123d35;
-      --verde-800: #185247;
-      --verde-700: #246b58;
-      --verde-100: #dff3ea;
-      --verde-50: #f1faf6;
-
-      --texto: #17231f;
-      --suave: #687872;
-      --borde: #d7e2dd;
-      --blanco: #ffffff;
-      --fondo: #eef3f1;
-
-      --rojo: #b42318;
-      --rojo-fondo: #fff0ee;
-
-      --amarillo: #9a6700;
-      --amarillo-fondo: #fff6d8;
-
-      --gris: #667085;
-      --gris-fondo: #f2f4f7;
-
-      --sombra: 0 12px 34px rgba(18, 61, 53, 0.09);
+      --green-950:#0b2b26; --green-900:#123d35; --green-800:#185247;
+      --green-700:#246b58; --green-100:#dff3ea; --green-50:#f1faf6;
+      --ink:#17231f; --muted:#687872; --line:#d7e2dd; --surface:#fff;
+      --page:#eef3f1; --red:#b42318; --red-bg:#fff0ee;
+      --amber:#9a6700; --amber-bg:#fff6d8; --gray:#667085; --gray-bg:#f2f4f7;
+      --shadow:0 12px 34px rgba(18,61,53,.09);
     }
-
-    * {
-      box-sizing: border-box;
+    * { box-sizing:border-box; }
+    html { min-width:320px; }
+    body { margin:0; min-height:100vh; background:var(--page); color:var(--ink); font-family:Inter,Segoe UI,Arial,sans-serif; font-size:16px; }
+    button,input,select { font:inherit; }
+    .topbar { background:linear-gradient(115deg,var(--green-950),var(--green-800)); color:#fff; padding:22px clamp(18px,3vw,44px); box-shadow:0 6px 22px rgba(11,43,38,.18); }
+    .topbar-inner { max-width:1800px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    h1 { margin:0; font-size:clamp(1.35rem,2.3vw,2rem); letter-spacing:.02em; }
+    .updated { color:#d8ebe4; font-size:.88rem; text-align:right; }
+    main { max-width:1800px; margin:0 auto; padding:22px clamp(12px,2.4vw,34px) 38px; }
+    .cards { display:grid; grid-template-columns:repeat(4,minmax(160px,1fr)); gap:14px; margin-bottom:18px; }
+    .card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow); }
+    .card-label { color:var(--muted); font-size:.82rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+    .card-value { margin-top:8px; font-size:1.65rem; font-weight:800; color:var(--green-900); }
+    .tabs { display:flex; gap:8px; padding:7px; background:#dfe9e5; border-radius:14px; overflow-x:auto; margin-bottom:16px; }
+    .tab { flex:1 0 170px; border:0; padding:12px 18px; border-radius:10px; color:#395049; background:transparent; font-weight:800; cursor:pointer; }
+    .tab.active { background:var(--surface); color:var(--green-900); box-shadow:0 4px 14px rgba(18,61,53,.12); }
+    .panel { background:var(--surface); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); overflow:hidden; }
+    .toolbar { display:grid; grid-template-columns:minmax(230px,2fr) repeat(2,minmax(170px,1fr)) auto; gap:12px; align-items:end; padding:16px; border-bottom:1px solid var(--line); }
+    label { display:block; color:var(--muted); font-size:.8rem; font-weight:700; margin:0 0 6px 2px; }
+    input,select { width:100%; height:44px; border:1px solid #bdcbc5; border-radius:10px; padding:0 12px; color:var(--ink); background:#fff; outline:none; }
+    input:focus,select:focus { border-color:var(--green-700); box-shadow:0 0 0 3px rgba(36,107,88,.13); }
+    .clear { height:44px; border:1px solid var(--line); border-radius:10px; padding:0 16px; background:#f7faf9; color:var(--green-900); font-weight:750; cursor:pointer; }
+    .resultbar { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 16px; color:var(--muted); font-size:.88rem; border-bottom:1px solid var(--line); }
+    .table-wrap { width:100%; overflow:auto; max-height:calc(100vh - 365px); min-height:310px; }
+    table { width:100%; border-collapse:separate; border-spacing:0; white-space:nowrap; }
+    th { position:sticky; top:0; z-index:3; padding:12px 13px; background:var(--green-900); color:#fff; text-align:left; font-size:.78rem; letter-spacing:.035em; text-transform:uppercase; cursor:pointer; }
+    th:hover { background:var(--green-800); }
+    td { padding:11px 13px; border-bottom:1px solid #e7eeeb; font-size:.88rem; vertical-align:middle; }
+    tbody tr:hover td { background:var(--green-50); }
+    tbody tr:last-child td { border-bottom:0; }
+    .sticky-first { position:sticky; left:0; z-index:2; background:#fff; box-shadow:5px 0 10px rgba(18,61,53,.05); }
+    th.sticky-first { z-index:5; background:var(--green-900); }
+    tbody tr:hover .sticky-first { background:var(--green-50); }
+    .name { font-weight:750; color:var(--green-950); }
+    .secondary { color:var(--muted); font-size:.78rem; margin-top:3px; }
+    .status { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; border-radius:50%; font-size:1.15rem; font-weight:900; line-height:1; }
+    .ok { color:#087443; background:#e3f6ec; }
+    .warn { color:var(--amber); background:var(--amber-bg); }
+    .bad { color:var(--red); background:var(--red-bg); }
+    .none { color:var(--gray); background:var(--gray-bg); }
+    .empty,.loading,.error { padding:60px 20px; text-align:center; color:var(--muted); }
+    .error { color:var(--red); }
+    @media (max-width:900px) {
+      .cards { grid-template-columns:repeat(2,1fr); }
+      .toolbar { grid-template-columns:1fr 1fr; }
+      .table-wrap { max-height:none; }
     }
-
-    html {
-      min-width: 320px;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--fondo);
-      color: var(--texto);
-      font-family: "Segoe UI", Arial, sans-serif;
-      font-size: 16px;
-    }
-
-    button,
-    input,
-    select {
-      font: inherit;
-    }
-
-    .topbar {
-      background: linear-gradient(
-        115deg,
-        var(--verde-950),
-        var(--verde-800)
-      );
-      color: white;
-      padding: 22px clamp(18px, 3vw, 44px);
-      box-shadow: 0 6px 22px rgba(11, 43, 38, 0.18);
-    }
-
-    .topbar-inner {
-      max-width: 1800px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(1.35rem, 2.3vw, 2rem);
-      letter-spacing: 0.02em;
-    }
-
-    .subtitulo {
-      margin-top: 5px;
-      color: #d8ebe4;
-    }
-
-    .updated {
-      color: #d8ebe4;
-      font-size: 0.88rem;
-      text-align: right;
-    }
-
-    main {
-      max-width: 1800px;
-      margin: 0 auto;
-      padding: 22px clamp(12px, 2.4vw, 34px) 38px;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(160px, 1fr));
-      gap: 14px;
-      margin-bottom: 18px;
-    }
-
-    .card {
-      background: var(--blanco);
-      border: 1px solid var(--borde);
-      border-radius: 14px;
-      padding: 16px 18px;
-      box-shadow: var(--sombra);
-    }
-
-    .card-label {
-      color: var(--suave);
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    .card-value {
-      margin-top: 8px;
-      font-size: 1.65rem;
-      font-weight: 800;
-      color: var(--verde-900);
-    }
-
-    .tabs {
-      display: flex;
-      gap: 8px;
-      padding: 7px;
-      margin-bottom: 16px;
-      background: #dfe9e5;
-      border-radius: 14px;
-      overflow-x: auto;
-    }
-
-    .tab {
-      flex: 1 0 170px;
-      border: 0;
-      padding: 12px 18px;
-      border-radius: 10px;
-      color: #395049;
-      background: transparent;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .tab.active {
-      background: var(--blanco);
-      color: var(--verde-900);
-      box-shadow: 0 4px 14px rgba(18, 61, 53, 0.12);
-    }
-
-    .panel {
-      background: var(--blanco);
-      border: 1px solid var(--borde);
-      border-radius: 16px;
-      box-shadow: var(--sombra);
-      overflow: hidden;
-    }
-
-    .toolbar {
-      display: grid;
-      grid-template-columns:
-        minmax(230px, 2fr)
-        repeat(2, minmax(170px, 1fr))
-        auto;
-      gap: 12px;
-      align-items: end;
-      padding: 16px;
-      border-bottom: 1px solid var(--borde);
-    }
-
-    label {
-      display: block;
-      margin: 0 0 6px 2px;
-      color: var(--suave);
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-
-    input,
-    select {
-      width: 100%;
-      height: 44px;
-      border: 1px solid #bdcbc5;
-      border-radius: 10px;
-      padding: 0 12px;
-      color: var(--texto);
-      background: white;
-      outline: none;
-    }
-
-    input:focus,
-    select:focus {
-      border-color: var(--verde-700);
-      box-shadow: 0 0 0 3px rgba(36, 107, 88, 0.13);
-    }
-
-    .clear {
-      height: 44px;
-      border: 1px solid var(--borde);
-      border-radius: 10px;
-      padding: 0 16px;
-      background: #f7faf9;
-      color: var(--verde-900);
-      font-weight: 750;
-      cursor: pointer;
-    }
-
-    .resultbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 12px 16px;
-      color: var(--suave);
-      font-size: 0.88rem;
-      border-bottom: 1px solid var(--borde);
-    }
-
-    .table-wrap {
-      width: 100%;
-      max-height: calc(100vh - 365px);
-      min-height: 310px;
-      overflow: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      white-space: nowrap;
-    }
-
-    th {
-      position: sticky;
-      top: 0;
-      z-index: 3;
-      padding: 12px 13px;
-      background: var(--verde-900);
-      color: white;
-      text-align: left;
-      font-size: 0.78rem;
-      letter-spacing: 0.035em;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-
-    th:hover {
-      background: var(--verde-800);
-    }
-
-    td {
-      padding: 11px 13px;
-      border-bottom: 1px solid #e7eeeb;
-      font-size: 0.88rem;
-      vertical-align: middle;
-    }
-
-    tbody tr:hover td {
-      background: var(--verde-50);
-    }
-
-    tbody tr:last-child td {
-      border-bottom: 0;
-    }
-
-    .sticky-first {
-      position: sticky;
-      left: 0;
-      z-index: 2;
-      background: white;
-      box-shadow: 5px 0 10px rgba(18, 61, 53, 0.05);
-    }
-
-    th.sticky-first {
-      z-index: 5;
-      background: var(--verde-900);
-    }
-
-    tbody tr:hover .sticky-first {
-      background: var(--verde-50);
-    }
-
-    .name {
-      font-weight: 750;
-      color: var(--verde-950);
-    }
-
-    .secondary {
-      margin-top: 3px;
-      color: var(--suave);
-      font-size: 0.78rem;
-    }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      min-height: 28px;
-      padding: 4px 9px;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      font-weight: 800;
-    }
-
-    .status::before {
-      font-size: 0.84rem;
-    }
-
-    .ok {
-      color: #087443;
-      background: #e3f6ec;
-    }
-
-    .ok::before {
-      content: "✓";
-    }
-
-    .warn {
-      color: var(--amarillo);
-      background: var(--amarillo-fondo);
-    }
-
-    .warn::before {
-      content: "!";
-    }
-
-    .bad {
-      color: var(--rojo);
-      background: var(--rojo-fondo);
-    }
-
-    .bad::before {
-      content: "✕";
-    }
-
-    .none {
-      color: var(--gris);
-      background: var(--gris-fondo);
-    }
-
-    .none::before {
-      content: "—";
-    }
-
-    .date {
-      margin-top: 4px;
-      color: var(--suave);
-      font-size: 0.73rem;
-      text-align: center;
-    }
-
-    .empty,
-    .loading,
-    .error {
-      padding: 60px 20px;
-      text-align: center;
-      color: var(--suave);
-    }
-
-    .error {
-      color: var(--rojo);
-    }
-
-    @media (max-width: 900px) {
-      .cards {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .toolbar {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .table-wrap {
-        max-height: none;
-      }
-    }
-
-    @media (max-width: 580px) {
-      .topbar-inner {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .updated {
-        text-align: left;
-      }
-
-      main {
-        padding-top: 14px;
-      }
-
-      .cards {
-        grid-template-columns: 1fr 1fr;
-        gap: 9px;
-      }
-
-      .card {
-        padding: 13px;
-      }
-
-      .card-value {
-        font-size: 1.35rem;
-      }
-
-      .toolbar {
-        grid-template-columns: 1fr;
-      }
-
-      .clear {
-        width: 100%;
-      }
+    @media (max-width:580px) {
+      .topbar-inner { align-items:flex-start; flex-direction:column; }
+      .updated { text-align:left; }
+      main { padding-top:14px; }
+      .cards { grid-template-columns:1fr 1fr; gap:9px; }
+      .card { padding:13px; }
+      .card-value { font-size:1.35rem; }
+      .toolbar { grid-template-columns:1fr; }
+      .clear { width:100%; }
     }
   </style>
 </head>
-
 <body>
-
   <header class="topbar">
     <div class="topbar-inner">
-
       <div>
         <h1>CONTROL DOCUMENTAL</h1>
-        <div class="subtitulo">Carga Camiones</div>
+        <div style="margin-top:5px;color:#d8ebe4">Carga Camiones</div>
       </div>
-
-      <div class="updated" id="updated">
-        Cargando información…
-      </div>
-
+      <div class="updated" id="updated">Cargando información…</div>
     </div>
   </header>
 
   <main>
-
     <section class="cards" aria-label="Resumen">
-
-      <article class="card">
-        <div class="card-label" id="totalLabel">Registros</div>
-        <div class="card-value" id="totalValue">—</div>
-      </article>
-
-      <article class="card">
-        <div class="card-label">Vigentes</div>
-        <div class="card-value" id="okValue">—</div>
-      </article>
-
-      <article class="card">
-        <div class="card-label">Por vencer</div>
-        <div class="card-value" id="warnValue">—</div>
-      </article>
-
-      <article class="card">
-        <div class="card-label">Observados</div>
-        <div class="card-value" id="badValue">—</div>
-      </article>
-
+      <article class="card"><div class="card-label" id="totalLabel">Registros</div><div class="card-value" id="totalValue">—</div></article>
+      <article class="card"><div class="card-label">Vigentes</div><div class="card-value" id="okValue">—</div></article>
+      <article class="card"><div class="card-label">Por vencer</div><div class="card-value" id="warnValue">—</div></article>
+      <article class="card"><div class="card-label">Observados</div><div class="card-value" id="badValue">—</div></article>
     </section>
 
     <nav class="tabs" aria-label="Secciones">
-
-      <button class="tab active" data-view="empresas">
-        EMPRESAS
-      </button>
-
-      <button class="tab" data-view="vehiculos">
-        VEHÍCULOS
-      </button>
-
-      <button class="tab" data-view="conductores">
-        CONDUCTORES
-      </button>
-
+      <button class="tab active" data-view="empresas">EMPRESAS</button>
+      <button class="tab" data-view="vehiculos">VEHÍCULOS</button>
+      <button class="tab" data-view="conductores">CONDUCTORES</button>
     </nav>
 
     <section class="panel">
-
       <div class="toolbar">
-
-        <div>
-          <label for="search">BUSCAR</label>
-          <input
-            id="search"
-            type="search"
-            placeholder="Empresa, matrícula o conductor…"
-            autocomplete="off"
-          >
-        </div>
-
-        <div>
-          <label for="companyFilter">EMPRESA</label>
-
-          <select id="companyFilter">
-            <option value="">Todas</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="statusFilter">ESTADO GENERAL</label>
-
-          <select id="statusFilter">
-            <option value="">Todos</option>
-          </select>
-        </div>
-
-        <button class="clear" id="clearFilters" type="button">
-          Limpiar
-        </button>
-
+        <div><label for="search">BUSCAR</label><input id="search" type="search" placeholder="Empresa, matrícula o conductor…" autocomplete="off"></div>
+        <div><label for="companyFilter">EMPRESA</label><select id="companyFilter"><option value="">Todas</option></select></div>
+        <div><label for="statusFilter">ESTADO GENERAL</label><select id="statusFilter"><option value="">Todos</option></select></div>
+        <button class="clear" id="clearFilters" type="button">Limpiar</button>
       </div>
-
-      <div class="resultbar">
-
-        <span id="resultCount">
-          Cargando…
-        </span>
-
-        <span>
-          Haz clic en un encabezado para ordenar
-        </span>
-
-      </div>
-
-      <div class="table-wrap" id="tableWrap">
-
-        <div class="loading">
-          Cargando datos documentales…
-        </div>
-
-      </div>
-
+      <div class="resultbar"><span id="resultCount">Cargando…</span><span>Haz clic en un encabezado para ordenar</span></div>
+      <div class="table-wrap" id="tableWrap"><div class="loading">Cargando datos documentales…</div></div>
     </section>
-
   </main>
 
   <script>
-    const ARCHIVO_JSON = "https://dl.dropbox.com/scl/fi/i0rfv5du2e5sbpq1ucpyg/ControlDocumental.json?rlkey=jl1q27ct26p11yb8b72x92wb1&dl=1";
+    const SOURCE = 'https://dl.dropbox.com/scl/fi/i0rfv5du2e5sbpq1ucpyg/ControlDocumental.json?rlkey=jl1q27ct26p11yb8b72x92wb1&dl=1';
+    const state = { data:null, view:'empresas', sortKey:null, sortAsc:true };
 
-    const estado = {
-      datos: null,
-      vista: "empresas",
-      ordenarPor: null,
-      ordenAscendente: true
-    };
-
-    const configuraciones = {
+    const configs = {
       empresas: {
-        etiqueta: "Empresas",
-
-        empresa: registro =>
-          registro.empresa_carga_camiones,
-
-        columnas: [
-          [
-            "empresa_carga_camiones",
-            "Empresa",
-            "nombre"
-          ],
-          [
-            "estado_bps",
-            "BPS",
-            "documento",
-            "bps_date"
-          ],
-          [
-            "estado_dgi",
-            "DGI",
-            "documento",
-            "dgi_date"
-          ],
-          [
-            "estado_bse_accidentes",
-            "BSE accidentes",
-            "documento",
-            "bse_acc_date"
-          ],
-          [
-            "estado_factura_bps",
-            "Factura BPS",
-            "documento",
-            "fact_bps_date"
-          ],
-          [
-            "estado_general",
-            "Estado general",
-            "estado"
-          ]
+        label:'Empresas', company:r=>r.empresa_carga_camiones,
+        columns:[
+          ['empresa_carga_camiones','Empresa','name'],
+          ['estado_bps','BPS','doc','bps_date'],
+          ['estado_dgi','DGI','doc','dgi_date'],
+          ['estado_bse_accidentes','BSE accidentes','doc','bse_acc_date'],
+          ['estado_factura_bps','Factura BPS','doc','fact_bps_date'],
+          ['estado_general','Estado general','status']
         ]
       },
-
       vehiculos: {
-        etiqueta: "Vehículos",
-
-        empresa: registro =>
-          registro.empresa,
-
-        columnas: [
-          [
-            "matricula_carga_camiones",
-            "Matrícula",
-            "nombre"
-          ],
-          [
-            "tipo_unidad_carga",
-            "Unidad",
-            "texto"
-          ],
-          [
-            "empresa",
-            "Empresa",
-            "texto"
-          ],
-          [
-            "category",
-            "Categoría",
-            "texto"
-          ],
-          [
-            "vehicle_type",
-            "Tipo vehículo",
-            "texto"
-          ],
-          [
-            "estado_activo",
-            "Activo",
-            "estado"
-          ],
-          [
-            "estado_applus",
-            "APPLUS",
-            "documento",
-            "applus_date"
-          ],
-          [
-            "estado_soa",
-            "SOA",
-            "documento",
-            "soa_date"
-          ],
-          [
-            "estado_general",
-            "Estado general",
-            "estado"
-          ]
+        label:'Vehículos', company:r=>r.empresa,
+        columns:[
+          ['matricula_carga_camiones','Matrícula','name'],
+          ['tipo_unidad_carga','Unidad','text'],
+          ['empresa','Empresa','text'],
+          ['category','Categoría','text'],
+          ['vehicle_type','Tipo vehículo','text'],
+          ['estado_activo','Activo','status'],
+          ['estado_applus','APPLUS','doc','applus_date'],
+          ['estado_soa','SOA','doc','soa_date'],
+          ['estado_general','Estado general','status']
         ]
       },
-
       conductores: {
-        etiqueta: "Conductores",
-
-        empresa: registro =>
-          registro.empresa,
-
-        columnas: [
-          [
-            "conductor_carga_camiones",
-            "Conductor",
-            "nombre",
-            "ci_carga_camiones"
-          ],
-          [
-            "empresa",
-            "Empresa",
-            "texto"
-          ],
-          [
-            "destino",
-            "Destino",
-            "texto"
-          ],
-          [
-            "estado_driver_license",
-            "Libreta",
-            "documento",
-            "driver_license"
-          ],
-          [
-            "estado_health_meat",
-            "Carné salud",
-            "documento",
-            "health_meat"
-          ],
-          [
-            "estado_identity_card",
-            "Cédula",
-            "documento",
-            "identity_card"
-          ],
-          [
-            "estado_psychotechnician",
-            "Psicotécnico",
-            "documento",
-            "psychotechnician"
-          ],
-          [
-            "estado_upm",
-            "UPM",
-            "documento",
-            "upm"
-          ],
-          [
-            "estado_green_card",
-            "Tarjeta verde",
-            "documento",
-            "green_card"
-          ],
-          [
-            "estado_fas_instructions",
-            "Instructivo FAS",
-            "estado"
-          ],
-          [
-            "estado_mtss",
-            "MTSS",
-            "estado"
-          ],
-          [
-            "estado_bps",
-            "BPS",
-            "estado"
-          ],
-          [
-            "estado_general",
-            "Estado general",
-            "estado"
-          ]
+        label:'Conductores', company:r=>r.empresa,
+        columns:[
+          ['conductor_carga_camiones','Conductor','name','ci_carga_camiones'],
+          ['empresa','Empresa','text'],
+          ['destino','Destino','text'],
+          ['estado_driver_license','Libreta','doc','driver_license'],
+          ['estado_health_meat','Carné salud','doc','health_meat'],
+          ['estado_identity_card','Cédula','doc','identity_card'],
+          ['estado_psychotechnician','Psicotécnico','doc','psychotechnician'],
+          ['estado_upm','UPM','doc','upm'],
+          ['estado_green_card','Tarjeta verde','doc','green_card'],
+          ['estado_fas_instructions','Instructivo FAS','status'],
+          ['estado_mtss','MTSS','status'],
+          ['estado_bps','BPS','status'],
+          ['estado_general','Estado general','status']
         ]
       }
     };
 
-    function elemento(id) {
-      return document.getElementById(id);
+    const $ = id => document.getElementById(id);
+    const esc = value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    const normalize = value => String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();
+    const prettyDate = value => {
+      if (!value) return '';
+      const [y,m,d] = String(value).slice(0,10).split('-');
+      return y && m && d ? `${d}/${m}/${y}` : value;
+    };
+    const statusClass = value => {
+      const s = normalize(value);
+      if (s === 'VIGENTE' || s === 'CUMPLE' || s === 'ACTIVO') return 'ok';
+      if (s === 'POR VENCER') return 'warn';
+      if (s === 'VENCIDO' || s === 'NO CUMPLE' || s === 'INACTIVO') return 'bad';
+      return 'warn';
+    };
+    const statusSymbol = value => {
+      const c = statusClass(value);
+      if (c === 'ok') return '✓';
+      if (c === 'warn') return '⚠';
+      if (c === 'bad') return '✕';
+      return '⚠';
+    };
+    const statusHtml = value => `<span class="status ${statusClass(value)}" title="${esc(value || 'SIN INFORMACION')}" aria-label="${esc(value || 'SIN INFORMACION')}">${statusSymbol(value)}</span>`;
+    const renderCell = (row,col) => {
+      const [key,,type,extra] = col, value=row[key];
+      if (type === 'status') return statusHtml(value);
+      if (type === 'doc') return statusHtml(value);
+      if (type === 'name') return `<div class="name">${esc(value || 'SIN INFORMACION')}</div>${extra && row[extra] ? `<div class="secondary">${esc(row[extra])}</div>` : ''}`;
+      return esc(value ?? '');
+    };
+
+    function currentRows() { return state.data?.[state.view] || []; }
+
+    function fillFilters() {
+      const cfg=configs[state.view], rows=currentRows();
+      const companies=[...new Set(rows.map(cfg.company).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
+      $('companyFilter').innerHTML='<option value="">Todas</option>'+companies.map(v=>`<option>${esc(v)}</option>`).join('');
+      const statuses=[...new Set(rows.map(r=>r.estado_general).filter(Boolean))].sort();
+      $('statusFilter').innerHTML='<option value="">Todos</option>'+statuses.map(v=>`<option>${esc(v)}</option>`).join('');
     }
 
-    function escaparHTML(valor) {
-      return String(valor ?? "").replace(
-        /[&<>'"]/g,
-        caracter => ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          "'": "&#39;",
-          '"': "&quot;"
-        })[caracter]
-      );
+    function filteredRows() {
+      const cfg=configs[state.view], q=normalize($('search').value), company=$('companyFilter').value, status=$('statusFilter').value;
+      let rows=currentRows().filter(row => {
+        const matchesText=!q || normalize(Object.values(row).join(' ')).includes(q);
+        return matchesText && (!company || cfg.company(row)===company) && (!status || row.estado_general===status);
+      });
+      if (state.sortKey) rows.sort((a,b)=>{
+        const av=normalize(a[state.sortKey]), bv=normalize(b[state.sortKey]);
+        return av.localeCompare(bv,'es',{numeric:true})*(state.sortAsc?1:-1);
+      });
+      return rows;
     }
 
-    function normalizar(valor) {
-      return String(valor ?? "")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toUpperCase();
+    function updateCards(rows) {
+      const all=currentRows();
+      $('totalLabel').textContent=configs[state.view].label;
+      $('totalValue').textContent=all.length.toLocaleString('es-UY');
+      $('okValue').textContent=all.filter(r=>normalize(r.estado_general)==='VIGENTE').length.toLocaleString('es-UY');
+      $('warnValue').textContent=all.filter(r=>normalize(r.estado_general)==='POR VENCER').length.toLocaleString('es-UY');
+      $('badValue').textContent=all.filter(r=>!['VIGENTE','POR VENCER'].includes(normalize(r.estado_general))).length.toLocaleString('es-UY');
+      $('resultCount').textContent=`Mostrando ${rows.length.toLocaleString('es-UY')} de ${all.length.toLocaleString('es-UY')} registros`;
     }
 
-    function formatearFecha(valor) {
-      if (!valor) {
-        return "";
-      }
-
-      const partes = String(valor)
-        .slice(0, 10)
-        .split("-");
-
-      const anio = partes[0];
-      const mes = partes[1];
-      const dia = partes[2];
-
-      if (!anio || !mes || !dia) {
-        return valor;
-      }
-
-      return `${dia}/${mes}/${anio}`;
+    function render() {
+      const cfg=configs[state.view], rows=filteredRows();
+      updateCards(rows);
+      if (!rows.length) { $('tableWrap').innerHTML='<div class="empty">No hay registros para los filtros seleccionados.</div>'; return; }
+      const head=cfg.columns.map((c,i)=>`<th class="${i===0?'sticky-first':''}" data-key="${c[0]}">${esc(c[1])}${state.sortKey===c[0]?(state.sortAsc?' ↑':' ↓'):''}</th>`).join('');
+      const body=rows.map(row=>`<tr>${cfg.columns.map((c,i)=>`<td class="${i===0?'sticky-first':''}">${renderCell(row,c)}</td>`).join('')}</tr>`).join('');
+      $('tableWrap').innerHTML=`<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+      document.querySelectorAll('th[data-key]').forEach(th=>th.addEventListener('click',()=>{
+        const key=th.dataset.key;
+        if(state.sortKey===key) state.sortAsc=!state.sortAsc; else { state.sortKey=key; state.sortAsc=true; }
+        render();
+      }));
     }
 
-    function claseEstado(valor) {
-      const texto = normalizar(valor);
-
-      if (
-        texto === "VIGENTE" ||
-        texto === "CUMPLE" ||
-        texto === "ACTIVO"
-      ) {
-        return "ok";
-      }
-
-      if (texto === "POR VENCER") {
-        return "warn";
-      }
-
-      if (
-        texto === "VENCIDO" ||
-        texto === "NO CUMPLE" ||
-        texto === "INACTIVO"
-      ) {
-        return "bad";
-      }
-
-      return "none";
+    function switchView(view) {
+      state.view=view; state.sortKey=null; state.sortAsc=true;
+      document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
+      $('search').value=''; $('companyFilter').value=''; $('statusFilter').value='';
+      fillFilters(); render();
     }
 
-    function crearEstado(valor) {
-      const texto = valor || "SIN INFORMACION";
-
-      return `
-        <span class="status ${claseEstado(texto)}">
-          ${escaparHTML(texto)}
-        </span>
-      `;
-    }
-
-    function crearCelda(registro, columna) {
-      const campo = columna[0];
-      const tipo = columna[2];
-      const campoExtra = columna[3];
-
-      const valor = registro[campo];
-
-      if (tipo === "estado") {
-        return crearEstado(valor);
-      }
-
-      if (tipo === "documento") {
-        const fecha = registro[campoExtra];
-
-        return `
-          ${crearEstado(valor)}
-          ${
-            fecha
-              ? `<div class="date">${formatearFecha(fecha)}</div>`
-              : ""
-          }
-        `;
-      }
-
-      if (tipo === "nombre") {
-        return `
-          <div class="name">
-            ${escaparHTML(valor || "SIN INFORMACION")}
-          </div>
-
-          ${
-            campoExtra && registro[campoExtra]
-              ? `
-                <div class="secondary">
-                  ${escaparHTML(registro[campoExtra])}
-                </div>
-              `
-              : ""
-          }
-        `;
-      }
-
-      return escaparHTML(valor ?? "");
-    }
-
-    function registrosActuales() {
-      if (!estado.datos) {
-        return [];
-      }
-
-      return estado.datos[estado.vista] || [];
-    }
-
-    function completarFiltros() {
-      const configuracion =
-        configuraciones[estado.vista];
-
-      const registros =
-        registrosActuales();
-
-      const empresas = [
-        ...new Set(
-          registros
-            .map(configuracion.empresa)
-            .filter(Boolean)
-        )
-      ].sort((a, b) =>
-        a.localeCompare(b, "es")
-      );
-
-      elemento("companyFilter").innerHTML =
-        `<option value="">Todas</option>` +
-        empresas
-          .map(
-            empresa =>
-              `<option value="${escaparHTML(empresa)}">
-                ${escaparHTML(empresa)}
-              </option>`
-          )
-          .join("");
-
-      const estados = [
-        ...new Set(
-          registros
-            .map(registro => registro.estado_general)
-            .filter(Boolean)
-        )
-      ].sort();
-
-      elemento("statusFilter").innerHTML =
-        `<option value="">Todos</option>` +
-        estados
-          .map(
-            valor =>
-              `<option value="${escaparHTML(valor)}">
-                ${escaparHTML(valor)}
-              </option>`
-          )
-          .join("");
-    }
-
-    function obtenerRegistrosFiltrados() {
-      const configuracion =
-        configuraciones[estado.vista];
-
-      const textoBuscar =
-        normalizar(elemento("search").value);
-
-      const empresaSeleccionada =
-        elemento("companyFilter").value;
-
-      const estadoSeleccionado =
-        elemento("statusFilter").value;
-
-      let registros = registrosActuales().filter(
-        registro => {
-          const contenidoRegistro = normalizar(
-            Object.values(registro).join(" ")
-          );
-
-          const coincideTexto =
-            !textoBuscar ||
-            contenidoRegistro.includes(textoBuscar);
-
-          const coincideEmpresa =
-            !empresaSeleccionada ||
-            configuracion.empresa(registro) ===
-              empresaSeleccionada;
-
-          const coincideEstado =
-            !estadoSeleccionado ||
-            registro.estado_general ===
-              estadoSeleccionado;
-
-          return (
-            coincideTexto &&
-            coincideEmpresa &&
-            coincideEstado
-          );
-        }
-      );
-
-      if (estado.ordenarPor) {
-        registros.sort((registroA, registroB) => {
-          const valorA = normalizar(
-            registroA[estado.ordenarPor]
-          );
-
-          const valorB = normalizar(
-            registroB[estado.ordenarPor]
-          );
-
-          return (
-            valorA.localeCompare(
-              valorB,
-              "es",
-              { numeric: true }
-            ) *
-            (estado.ordenAscendente ? 1 : -1)
-          );
-        });
-      }
-
-      return registros;
-    }
-
-    function actualizarTarjetas() {
-      const registros = registrosActuales();
-
-      const vigentes = registros.filter(
-        registro =>
-          normalizar(registro.estado_general) ===
-          "VIGENTE"
-      ).length;
-
-      const porVencer = registros.filter(
-        registro =>
-          normalizar(registro.estado_general) ===
-          "POR VENCER"
-      ).length;
-
-      const observados = registros.filter(
-        registro =>
-          ![
-            "VIGENTE",
-            "POR VENCER"
-          ].includes(
-            normalizar(registro.estado_general)
-          )
-      ).length;
-
-      elemento("totalLabel").textContent =
-        configuraciones[estado.vista].etiqueta;
-
-      elemento("totalValue").textContent =
-        registros.length.toLocaleString("es-UY");
-
-      elemento("okValue").textContent =
-        vigentes.toLocaleString("es-UY");
-
-      elemento("warnValue").textContent =
-        porVencer.toLocaleString("es-UY");
-
-      elemento("badValue").textContent =
-        observados.toLocaleString("es-UY");
-    }
-
-    function renderizar() {
-      const configuracion =
-        configuraciones[estado.vista];
-
-      const registros =
-        obtenerRegistrosFiltrados();
-
-      actualizarTarjetas();
-
-      elemento("resultCount").textContent =
-        `Mostrando ${registros.length.toLocaleString("es-UY")} ` +
-        `de ${registrosActuales().length.toLocaleString("es-UY")} registros`;
-
-      if (registros.length === 0) {
-        elemento("tableWrap").innerHTML = `
-          <div class="empty">
-            No hay registros para los filtros seleccionados.
-          </div>
-        `;
-
-        return;
-      }
-
-      const encabezados = configuracion.columnas
-        .map((columna, indice) => {
-          const campo = columna[0];
-          const titulo = columna[1];
-
-          let indicadorOrden = "";
-
-          if (estado.ordenarPor === campo) {
-            indicadorOrden =
-              estado.ordenAscendente ? " ↑" : " ↓";
-          }
-
-          return `
-            <th
-              class="${indice === 0 ? "sticky-first" : ""}"
-              data-key="${campo}"
-            >
-              ${escaparHTML(titulo)}${indicadorOrden}
-            </th>
-          `;
-        })
-        .join("");
-
-      const filas = registros
-        .map(registro => {
-          const celdas = configuracion.columnas
-            .map((columna, indice) => {
-              return `
-                <td class="${indice === 0 ? "sticky-first" : ""}">
-                  ${crearCelda(registro, columna)}
-                </td>
-              `;
-            })
-            .join("");
-
-          return `<tr>${celdas}</tr>`;
-        })
-        .join("");
-
-      elemento("tableWrap").innerHTML = `
-        <table>
-          <thead>
-            <tr>
-              ${encabezados}
-            </tr>
-          </thead>
-
-          <tbody>
-            ${filas}
-          </tbody>
-        </table>
-      `;
-
-      document
-        .querySelectorAll("th[data-key]")
-        .forEach(encabezado => {
-          encabezado.addEventListener(
-            "click",
-            () => {
-              const campo =
-                encabezado.dataset.key;
-
-              if (estado.ordenarPor === campo) {
-                estado.ordenAscendente =
-                  !estado.ordenAscendente;
-              } else {
-                estado.ordenarPor = campo;
-                estado.ordenAscendente = true;
-              }
-
-              renderizar();
-            }
-          );
-        });
-    }
-
-    function cambiarVista(vista) {
-      estado.vista = vista;
-      estado.ordenarPor = null;
-      estado.ordenAscendente = true;
-
-      document
-        .querySelectorAll(".tab")
-        .forEach(boton => {
-          boton.classList.toggle(
-            "active",
-            boton.dataset.view === vista
-          );
-        });
-
-      elemento("search").value = "";
-      elemento("companyFilter").value = "";
-      elemento("statusFilter").value = "";
-
-      completarFiltros();
-      renderizar();
-    }
-
-    async function cargarDatos() {
+    async function load() {
       try {
-        const respuesta = await fetch(
-          `${ARCHIVO_JSON}?v=${Date.now()}`,
-          {
-            cache: "no-store"
-          }
-        );
-
-        if (!respuesta.ok) {
-          throw new Error(
-            `Error HTTP ${respuesta.status}`
-          );
-        }
-
-        estado.datos = await respuesta.json();
-
-        elemento("updated").textContent =
-          `Actualizado: ${
-            estado.datos.actualizado ||
-            "sin fecha"
-          }`;
-
-        completarFiltros();
-        renderizar();
-
-      } catch (error) {
-        elemento("updated").textContent =
-          "No se pudo cargar la información";
-
-        elemento("tableWrap").innerHTML = `
-          <div class="error">
-            <strong>
-              Error al cargar ControlDocumental.json
-            </strong>
-
-            <br><br>
-
-            Comprueba que el archivo esté en la misma
-            carpeta que index.html.
-          </div>
-        `;
-
+        const response=await fetch(`${SOURCE}?v=${Date.now()}`,{cache:'no-store'});
+        if(!response.ok) throw new Error(`HTTP ${response.status}`);
+        state.data=await response.json();
+        $('updated').textContent=`Actualizado: ${state.data.actualizado || 'sin fecha'}`;
+        fillFilters(); render();
+      } catch(error) {
+        $('updated').textContent='No se pudo cargar la información';
+        $('tableWrap').innerHTML=`<div class="error"><strong>Error al cargar ControlDocumental.json</strong><br>Comprueba que el archivo esté junto a index.html.</div>`;
         console.error(error);
       }
     }
 
-    document
-      .querySelectorAll(".tab")
-      .forEach(boton => {
-        boton.addEventListener(
-          "click",
-          () => cambiarVista(
-            boton.dataset.view
-          )
-        );
-      });
-
-    elemento("search").addEventListener(
-      "input",
-      renderizar
-    );
-
-    elemento("companyFilter").addEventListener(
-      "change",
-      renderizar
-    );
-
-    elemento("statusFilter").addEventListener(
-      "change",
-      renderizar
-    );
-
-    elemento("clearFilters").addEventListener(
-      "click",
-      () => {
-        elemento("search").value = "";
-        elemento("companyFilter").value = "";
-        elemento("statusFilter").value = "";
-
-        renderizar();
-      }
-    );
-
-    cargarDatos();
+    document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchView(b.dataset.view)));
+    ['search','companyFilter','statusFilter'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',render));
+    $('clearFilters').addEventListener('click',()=>{ $('search').value=''; $('companyFilter').value=''; $('statusFilter').value=''; render(); });
+    load();
   </script>
-
 </body>
 </html>
