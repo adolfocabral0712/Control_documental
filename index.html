@@ -17,8 +17,8 @@
       --shadow:0 12px 34px rgba(18,61,53,.09);
     }
     * { box-sizing:border-box; }
-    html { min-width:320px; }
-    body { margin:0; min-height:100vh; background:var(--page); color:var(--ink); font-family:Inter,Segoe UI,Arial,sans-serif; font-size:16px; }
+    html { min-width:320px; font-size:15px; }
+    body { margin:0; min-height:100vh; background:var(--page); color:var(--ink); font-family:Inter,Segoe UI,Arial,sans-serif; font-size:1rem; }
     button,input,select { font:inherit; }
     .topbar { background:linear-gradient(115deg,var(--green-950),var(--green-800)); color:#fff; padding:22px clamp(18px,3vw,44px); box-shadow:0 6px 22px rgba(11,43,38,.18); }
     .topbar-inner { max-width:1800px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:20px; }
@@ -26,7 +26,7 @@
     .updated { color:#d8ebe4; font-size:.88rem; text-align:right; }
     main { max-width:1800px; margin:0 auto; padding:22px clamp(12px,2.4vw,34px) 38px; }
     .cards { display:grid; grid-template-columns:repeat(4,minmax(160px,1fr)); gap:14px; margin-bottom:18px; }
-    .card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px; box-shadow:var(--shadow); }
+    .card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px; text-align:center; box-shadow:var(--shadow); }
     .card-label { color:var(--muted); font-size:.82rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
     .card-value { margin-top:8px; font-size:1.65rem; font-weight:800; color:var(--green-900); }
     .tabs { display:flex; gap:8px; padding:7px; background:#dfe9e5; border-radius:14px; overflow-x:auto; margin-bottom:16px; }
