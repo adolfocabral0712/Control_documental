@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#123d35">
+
+  <title>Control Documental</title>
+
+  <style>
+    :root {
+      --verde-950: #0b2b26;
+      --verde-900: #123d35;
+      --verde-800: #185247;
+      --verde-700: #246b58;
+      --verde-100: #dff3ea;
+      --verde-50: #f1faf6;
+
+      --texto: #17231f;
+      --suave: #687872;
+      --borde: #d7e2dd;
+      --blanco: #ffffff;
+      --fondo: #eef3f1;
+
+      --rojo: #b42318;
+      --rojo-fondo: #fff0ee;
+
+      --amarillo: #9a6700;
+      --amarillo-fondo: #fff6d8;
+
+      --gris: #667085;
+      --gris-fondo: #f2f4f7;
+
+      --sombra: 0 12px 34px rgba(18, 61, 53, 0.09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-width: 320px;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--fondo);
+      color: var(--texto);
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 16px;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .topbar {
+      background: linear-gradient(
+        115deg,
+        var(--verde-950),
+        var(--verde-800)
+      );
+      color: white;
+      padding: 22px clamp(18px, 3vw, 44px);
+      box-shadow: 0 6px 22px rgba(11, 43, 38, 0.18);
+    }
+
+    .topbar-inner {
+      max-width: 1800px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.35rem, 2.3vw, 2rem);
+      letter-spacing: 0.02em;
+    }
+
+    .subtitulo {
+      margin-top: 5px;
+      color: #d8ebe4;
+    }
+
+    .updated {
+      color: #d8ebe4;
+      font-size: 0.88rem;
+      text-align: right;
+    }
+
+    main {
+      max-width: 1800px;
+      margin: 0 auto;
+      padding: 22px clamp(12px, 2.4vw, 34px) 38px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .card {
+      background: var(--blanco);
+      border: 1px solid var(--borde);
+      border-radius: 14px;
+      padding: 16px 18px;
+      box-shadow: var(--sombra);
+    }
+
+    .card-label {
+      color: var(--suave);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .card-value {
+      margin-top: 8px;
+      font-size: 1.65rem;
+      font-weight:
