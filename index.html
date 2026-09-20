@@ -26,9 +26,17 @@
     .updated { color:#d8ebe4; font-size:.88rem; text-align:right; }
     main { max-width:1800px; margin:0 auto; padding:22px clamp(12px,2.4vw,34px) 38px; }
     .cards { display:grid; grid-template-columns:repeat(4,minmax(160px,1fr)); gap:14px; margin-bottom:18px; }
+    .cards.with-trozas { grid-template-columns:repeat(5,minmax(150px,1fr)); }
     .card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px; text-align:center; box-shadow:var(--shadow); }
     .card-label { color:var(--muted); font-size:.82rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
     .card-value { margin-top:8px; font-size:1.65rem; font-weight:800; color:var(--green-900); }
+    .trozas-card { display:none; cursor:pointer; }
+    .trozas-card.visible { display:block; }
+    .trozas-card.risk { border-color:#e3a09a; background:var(--red-bg); }
+    .trozas-card.risk .card-value { color:var(--red); }
+    .trozas-card.safe { border-color:#9dd9bb; background:#effaf4; }
+    .trozas-card.safe .card-value { color:#087443; }
+    .trozas-card.active { outline:3px solid rgba(180,35,24,.18); }
     .tabs { display:flex; gap:8px; padding:7px; background:#dfe9e5; border-radius:14px; overflow-x:auto; margin-bottom:16px; }
     .tab { flex:1 0 170px; border:0; padding:12px 18px; border-radius:10px; color:#395049; background:transparent; font-weight:800; cursor:pointer; }
     .tab.active { background:var(--surface); color:var(--green-900); box-shadow:0 4px 14px rgba(18,61,53,.12); }
@@ -60,6 +68,7 @@
     .error { color:var(--red); }
     @media (max-width:900px) {
       .cards { grid-template-columns:repeat(2,1fr); }
+      .cards.with-trozas { grid-template-columns:repeat(2,1fr); }
       .toolbar { grid-template-columns:1fr 1fr; }
       .table-wrap { max-height:none; }
     }
@@ -68,6 +77,7 @@
       .updated { text-align:left; }
       main { padding-top:14px; }
       .cards { grid-template-columns:1fr 1fr; gap:9px; }
+      .cards.with-trozas { grid-template-columns:1fr 1fr; }
       .card { padding:13px; }
       .card-value { font-size:1.35rem; }
       .toolbar { grid-template-columns:1fr; }
@@ -87,11 +97,15 @@
   </header>
 
   <main>
-    <section class="cards" aria-label="Resumen">
+    <section class="cards" id="cards" aria-label="Resumen">
       <article class="card"><div class="card-label" id="totalLabel">Registros</div><div class="card-value" id="totalValue">—</div></article>
       <article class="card"><div class="card-label">Vigentes</div><div class="card-value" id="okValue">—</div></article>
       <article class="card"><div class="card-label">Por vencer</div><div class="card-value" id="warnValue">—</div></article>
       <article class="card"><div class="card-label">Observados</div><div class="card-value" id="badValue">—</div></article>
+      <button class="card trozas-card" id="trozasCard" type="button" title="Mostrar conductores de Las Acacias con documentos vencidos">
+        <div class="card-label">TROZAS UPM</div>
+        <div class="card-value" id="trozasValue">—</div>
+      </button>
     </section>
 
     <nav class="tabs" aria-label="Secciones">
@@ -114,7 +128,7 @@
 
   <script>
     const SOURCE = 'https://dl.dropbox.com/scl/fi/i0rfv5du2e5sbpq1ucpyg/ControlDocumental.json?rlkey=jl1q27ct26p11yb8b72x92wb1&dl=1';
-    const state = { data:null, view:'empresas', sortKey:null, sortAsc:true };
+    const state = { data:null, view:'empresas', sortKey:null, sortAsc:true, trozasOnly:false };
 
     const configs = {
       empresas: {
@@ -148,7 +162,7 @@
           ['conductor_carga_camiones','Conductor','name','ci_carga_camiones'],
           ['estado_general','Estado general','status'],
           ['empresa','Empresa','text'],
-          ['destino','Destino','text'],
+          ['destino','Destino / Próximo destino','text'],
           ['estado_driver_license','Libreta','doc','driver_license'],
           ['estado_health_meat','Carné salud','doc','health_meat'],
           ['estado_identity_card','Cédula','doc','identity_card'],
@@ -200,6 +214,17 @@
 
     function currentRows() { return state.data?.[state.view] || []; }
 
+    function isTrozasRisk(row) {
+      const esLasAcacias=normalize(row.destino).includes('LAS ACACIAS');
+      const vencidos=[
+        row.estado_driver_license,
+        row.estado_health_meat,
+        row.estado_identity_card,
+        row.estado_psychotechnician
+      ].some(value=>normalize(value)==='VENCIDO');
+      return esLasAcacias && vencidos;
+    }
+
     function fillFilters() {
       const cfg=configs[state.view], rows=currentRows();
       const companies=[...new Set(rows.map(cfg.company).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
@@ -212,7 +237,8 @@
       const cfg=configs[state.view], q=normalize($('search').value), company=$('companyFilter').value, status=$('statusFilter').value;
       let rows=currentRows().filter(row => {
         const matchesText=!q || normalize(Object.values(row).join(' ')).includes(q);
-        return matchesText && (!company || cfg.company(row)===company) && (!status || row.estado_general===status);
+        const matchesTrozas=state.view!=='conductores' || !state.trozasOnly || isTrozasRisk(row);
+        return matchesText && (!company || cfg.company(row)===company) && (!status || row.estado_general===status) && matchesTrozas;
       });
       if (state.sortKey) rows.sort((a,b)=>{
         const av=normalize(a[state.sortKey]), bv=normalize(b[state.sortKey]);
@@ -228,6 +254,15 @@
       $('okValue').textContent=all.filter(r=>normalize(r.estado_general)==='VIGENTE').length.toLocaleString('es-UY');
       $('warnValue').textContent=all.filter(r=>normalize(r.estado_general)==='POR VENCER').length.toLocaleString('es-UY');
       $('badValue').textContent=all.filter(r=>!['VIGENTE','POR VENCER'].includes(normalize(r.estado_general))).length.toLocaleString('es-UY');
+      const trozasCard=$('trozasCard');
+      const showTrozas=state.view==='conductores';
+      const trozasCount=showTrozas ? all.filter(isTrozasRisk).length : 0;
+      $('cards').classList.toggle('with-trozas',showTrozas);
+      trozasCard.classList.toggle('visible',showTrozas);
+      trozasCard.classList.toggle('risk',showTrozas && trozasCount>0);
+      trozasCard.classList.toggle('safe',showTrozas && trozasCount===0);
+      trozasCard.classList.toggle('active',showTrozas && state.trozasOnly);
+      $('trozasValue').textContent=trozasCount.toLocaleString('es-UY');
       $('resultCount').textContent=`Mostrando ${rows.length.toLocaleString('es-UY')} de ${all.length.toLocaleString('es-UY')} registros`;
     }
 
@@ -246,7 +281,7 @@
     }
 
     function switchView(view) {
-      state.view=view; state.sortKey=null; state.sortAsc=true;
+      state.view=view; state.sortKey=null; state.sortAsc=true; state.trozasOnly=false;
       document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
       $('search').value=''; $('companyFilter').value=''; $('statusFilter').value='';
       fillFilters(); render();
@@ -268,7 +303,8 @@
 
     document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchView(b.dataset.view)));
     ['search','companyFilter','statusFilter'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',render));
-    $('clearFilters').addEventListener('click',()=>{ $('search').value=''; $('companyFilter').value=''; $('statusFilter').value=''; render(); });
+    $('clearFilters').addEventListener('click',()=>{ $('search').value=''; $('companyFilter').value=''; $('statusFilter').value=''; state.trozasOnly=false; render(); });
+    $('trozasCard').addEventListener('click',()=>{ state.trozasOnly=!state.trozasOnly; render(); });
     load();
   </script>
 </body>
