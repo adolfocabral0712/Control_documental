@@ -26,9 +26,9 @@
     .updated { color:#d8ebe4; font-size:.88rem; text-align:right; }
     main { max-width:1800px; margin:0 auto; padding:22px clamp(12px,2.4vw,34px) 38px; }
     .overview { display:grid; grid-template-columns:minmax(180px,230px) minmax(180px,230px) minmax(420px,1fr); gap:14px; margin-bottom:18px; align-items:stretch; }
-    .card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px; text-align:center; box-shadow:var(--shadow); }
-    .card-label { color:var(--muted); font-size:.82rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
-    .card-value { margin-top:8px; font-size:1.65rem; font-weight:800; color:var(--green-900); }
+    .card { display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px; text-align:center; box-shadow:var(--shadow); }
+    .card-label { width:100%; color:var(--muted); font-size:.82rem; font-weight:700; letter-spacing:.06em; text-align:center; text-transform:uppercase; }
+    .card-value { width:100%; margin-top:8px; color:var(--green-900); font-size:1.65rem; font-weight:800; text-align:center; }
     .trozas-card { display:block; cursor:pointer; }
     .trozas-card.risk { border-color:#e3a09a; background:var(--red-bg); }
     .trozas-card.risk .card-value { color:var(--red); }
@@ -46,6 +46,11 @@
     .summary-table th:nth-child(3),.summary-table td:nth-child(3) { width:28%; text-align:center; }
     .summary-warn { color:var(--amber); font-weight:850; }
     .summary-bad { color:var(--red); font-weight:850; }
+    .summary-count { width:100%; min-width:38px; min-height:28px; border:1px solid transparent; border-radius:8px; background:rgba(255,255,255,.45); color:inherit; font-weight:850; cursor:pointer; }
+    .summary-count:hover,.summary-count:focus-visible { background:#fff; border-color:currentColor; outline:none; }
+    .summary-warn .summary-count.active { background:var(--amber-bg); border-color:var(--amber); box-shadow:0 0 0 2px rgba(154,103,0,.12); }
+    .summary-bad .summary-count.active { background:var(--red-bg); border-color:var(--red); box-shadow:0 0 0 2px rgba(180,35,24,.12); }
+    .summary-count:disabled { opacity:.55; cursor:default; border-color:transparent; background:transparent; }
     .tabs { display:flex; gap:8px; padding:7px; background:#dfe9e5; border-radius:14px; overflow-x:auto; margin-bottom:16px; }
     .tab { flex:1 0 170px; border:0; padding:12px 18px; border-radius:10px; color:#395049; background:transparent; font-weight:800; cursor:pointer; }
     .tab.active { background:var(--surface); color:var(--green-900); box-shadow:0 4px 14px rgba(18,61,53,.12); }
@@ -127,9 +132,9 @@
         <table class="summary-table">
           <thead><tr><th>Tipo documental</th><th>Por vencer</th><th>Vencidos</th></tr></thead>
           <tbody>
-            <tr><td>Empresas</td><td class="summary-warn" id="summaryEmpresasWarn">—</td><td class="summary-bad" id="summaryEmpresasBad">—</td></tr>
-            <tr><td>Vehículos</td><td class="summary-warn" id="summaryVehiculosWarn">—</td><td class="summary-bad" id="summaryVehiculosBad">—</td></tr>
-            <tr><td>Conductores</td><td class="summary-warn" id="summaryConductoresWarn">—</td><td class="summary-bad" id="summaryConductoresBad">—</td></tr>
+            <tr><td>Empresas</td><td class="summary-warn"><button class="summary-count" id="summaryEmpresasWarn" data-summary-view="empresas" data-summary-status="POR VENCER" type="button">—</button></td><td class="summary-bad"><button class="summary-count" id="summaryEmpresasBad" data-summary-view="empresas" data-summary-status="VENCIDO" type="button">—</button></td></tr>
+            <tr><td>Vehículos</td><td class="summary-warn"><button class="summary-count" id="summaryVehiculosWarn" data-summary-view="vehiculos" data-summary-status="POR VENCER" type="button">—</button></td><td class="summary-bad"><button class="summary-count" id="summaryVehiculosBad" data-summary-view="vehiculos" data-summary-status="VENCIDO" type="button">—</button></td></tr>
+            <tr><td>Conductores</td><td class="summary-warn"><button class="summary-count" id="summaryConductoresWarn" data-summary-view="conductores" data-summary-status="POR VENCER" type="button">—</button></td><td class="summary-bad"><button class="summary-count" id="summaryConductoresBad" data-summary-view="conductores" data-summary-status="VENCIDO" type="button">—</button></td></tr>
           </tbody>
         </table>
       </article>
@@ -154,7 +159,7 @@
   </main>
 
   <script>
-    const SOURCE = 'https://dl.dropbox.com/scl/fi/i0rfv5du2e5sbpq1ucpyg/ControlDocumental.json?rlkey=jl1q27ct26p11yb8b72x92wb1&dl=1';
+    const SOURCE = '/api/datos';
     const state = { data:null, view:'empresas', sortKey:null, sortAsc:true, trozasOnly:false };
 
     const configs = {
@@ -282,13 +287,18 @@
       const all=currentRows();
       $('totalLabel').textContent=configs[state.view].label;
       $('totalValue').textContent=all.length.toLocaleString('es-UY');
-      const summaryCount=(section,status)=>(state.data?.[section] || []).filter(r=>normalize(r.estado_general)===status).length.toLocaleString('es-UY');
-      $('summaryEmpresasWarn').textContent=summaryCount('empresas','POR VENCER');
-      $('summaryEmpresasBad').textContent=summaryCount('empresas','VENCIDO');
-      $('summaryVehiculosWarn').textContent=summaryCount('vehiculos','POR VENCER');
-      $('summaryVehiculosBad').textContent=summaryCount('vehiculos','VENCIDO');
-      $('summaryConductoresWarn').textContent=summaryCount('conductores','POR VENCER');
-      $('summaryConductoresBad').textContent=summaryCount('conductores','VENCIDO');
+      const setSummaryCount=(id,section,status)=>{
+        const count=(state.data?.[section] || []).filter(r=>normalize(r.estado_general)===status).length;
+        const button=$(id);
+        button.textContent=count.toLocaleString('es-UY');
+        button.disabled=count===0;
+      };
+      setSummaryCount('summaryEmpresasWarn','empresas','POR VENCER');
+      setSummaryCount('summaryEmpresasBad','empresas','VENCIDO');
+      setSummaryCount('summaryVehiculosWarn','vehiculos','POR VENCER');
+      setSummaryCount('summaryVehiculosBad','vehiculos','VENCIDO');
+      setSummaryCount('summaryConductoresWarn','conductores','POR VENCER');
+      setSummaryCount('summaryConductoresBad','conductores','VENCIDO');
       const trozasCard=$('trozasCard');
       const trozasRows=state.data?.conductores || [];
       const trozasCount=trozasRows.filter(isTrozasRisk).length;
@@ -296,6 +306,11 @@
       trozasCard.classList.toggle('safe',trozasCount===0);
       trozasCard.classList.toggle('active',state.view==='conductores' && state.trozasOnly);
       $('trozasValue').textContent=trozasCount.toLocaleString('es-UY');
+      document.querySelectorAll('.summary-count').forEach(button=>{
+        const selected=button.dataset.summaryView===state.view && button.dataset.summaryStatus===$('statusFilter').value;
+        button.classList.toggle('active',selected);
+        button.setAttribute('aria-pressed',selected ? 'true' : 'false');
+      });
       $('resultCount').textContent=`Mostrando ${rows.length.toLocaleString('es-UY')} de ${all.length.toLocaleString('es-UY')} registros`;
     }
 
@@ -332,12 +347,18 @@
         fillFilters(); render();
       } catch(error) {
         $('updated').textContent='No se pudo cargar la información';
-        $('tableWrap').innerHTML=`<div class="error"><strong>Error al cargar ControlDocumental.json</strong><br>Comprueba que el archivo esté junto a index.html.</div>`;
+        $('tableWrap').innerHTML=`<div class="error"><strong>No se pudieron cargar los datos</strong><br>Comprueba la configuración del Secret DROPBOX_JSON_URL.</div>`;
         console.error(error);
       }
     }
 
     document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchView(b.dataset.view)));
+    document.querySelectorAll('.summary-count').forEach(button=>button.addEventListener('click',()=>{
+      switchView(button.dataset.summaryView);
+      $('statusFilter').value=button.dataset.summaryStatus;
+      state.trozasOnly=false;
+      render();
+    }));
     ['search','companyFilter','statusFilter'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',render));
     $('clearFilters').addEventListener('click',()=>{ $('search').value=''; $('companyFilter').value=''; $('statusFilter').value=''; state.trozasOnly=false; render(); });
     $('trozasCard').addEventListener('click',()=>{
