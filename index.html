@@ -41,9 +41,9 @@
     .resultbar { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 16px; color:var(--muted); font-size:.88rem; border-bottom:1px solid var(--line); }
     .table-wrap { width:100%; overflow:auto; max-height:calc(100vh - 365px); min-height:310px; }
     table { width:100%; border-collapse:separate; border-spacing:0; white-space:nowrap; }
-    th { position:sticky; top:0; z-index:3; padding:12px 13px; background:var(--green-900); color:#fff; text-align:left; font-size:.78rem; letter-spacing:.035em; text-transform:uppercase; cursor:pointer; }
+    th { position:sticky; top:0; z-index:3; padding:12px 13px; background:var(--green-900); color:#fff; text-align:center; font-size:.78rem; letter-spacing:.035em; text-transform:uppercase; cursor:pointer; }
     th:hover { background:var(--green-800); }
-    td { padding:11px 13px; border-bottom:1px solid #e7eeeb; font-size:.88rem; vertical-align:middle; }
+    td { padding:11px 13px; border-bottom:1px solid #e7eeeb; font-size:.88rem; text-align:center; vertical-align:middle; }
     tbody tr:hover td { background:var(--green-50); }
     tbody tr:last-child td { border-bottom:0; }
     .sticky-first { position:sticky; left:0; z-index:2; background:#fff; box-shadow:5px 0 10px rgba(18,61,53,.05); }
@@ -121,43 +121,43 @@
         label:'Empresas', company:r=>r.empresa_carga_camiones,
         columns:[
           ['empresa_carga_camiones','Empresa','name'],
+          ['estado_general','Estado general','status'],
           ['estado_bps','BPS','doc','bps_date'],
           ['estado_dgi','DGI','doc','dgi_date'],
           ['estado_bse_accidentes','BSE accidentes','doc','bse_acc_date'],
-          ['estado_factura_bps','Factura BPS','doc','fact_bps_date'],
-          ['estado_general','Estado general','status']
+          ['estado_factura_bps','Factura BPS','doc','fact_bps_date']
         ]
       },
       vehiculos: {
         label:'Vehículos', company:r=>r.empresa,
         columns:[
           ['matricula_carga_camiones','Matrícula','name'],
+          ['estado_general','Estado general','status'],
           ['tipo_unidad_carga','Unidad','text'],
           ['empresa','Empresa','text'],
           ['category','Categoría','text'],
           ['vehicle_type','Tipo vehículo','text'],
           ['estado_activo','Activo','status'],
           ['estado_applus','APPLUS','doc','applus_date'],
-          ['estado_soa','SOA','doc','soa_date'],
-          ['estado_general','Estado general','status']
+          ['estado_soa','SOA','doc','soa_date']
         ]
       },
       conductores: {
         label:'Conductores', company:r=>r.empresa,
         columns:[
           ['conductor_carga_camiones','Conductor','name','ci_carga_camiones'],
+          ['estado_general','Estado general','status'],
           ['empresa','Empresa','text'],
           ['destino','Destino','text'],
           ['estado_driver_license','Libreta','doc','driver_license'],
           ['estado_health_meat','Carné salud','doc','health_meat'],
           ['estado_identity_card','Cédula','doc','identity_card'],
           ['estado_psychotechnician','Psicotécnico','doc','psychotechnician'],
-          ['estado_upm','UPM','doc','upm'],
+          ['estado_upm','Curso UPM','doc','upm'],
           ['estado_green_card','Tarjeta verde','doc','green_card'],
           ['estado_fas_instructions','Instructivo FAS','status'],
           ['estado_mtss','MTSS','status'],
-          ['estado_bps','BPS','status'],
-          ['estado_general','Estado general','status']
+          ['estado_bps','BPS','status']
         ]
       }
     };
@@ -190,6 +190,11 @@
       if (type === 'status') return statusHtml(value);
       if (type === 'doc') return statusHtml(value);
       if (type === 'name') return `<div class="name">${esc(value || 'SIN INFORMACION')}</div>${extra && row[extra] ? `<div class="secondary">${esc(row[extra])}</div>` : ''}`;
+      if (key === 'vehicle_type') {
+        const tipo = normalize(value);
+        if (tipo === 'TRAILER') return 'Acoplado';
+        if (tipo === 'TRUCK') return 'Camion';
+      }
       return esc(value ?? '');
     };
 
