@@ -1,16 +1,12 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-
-  "name": "control-documental",
-
+  "name": "control-documental-carga-camiones",
   "main": "src/index.js",
-
   "compatibility_date": "2026-09-20",
 
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
-
     "run_worker_first": [
       "/api/*"
     ]
