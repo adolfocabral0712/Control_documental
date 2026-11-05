@@ -6,64 +6,377 @@
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#123d35">
   <title>Control documental</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23123d35'/%3E%3Cpath d='M19 12h20l8 8v32H19z' fill='%23fff'/%3E%3Cpath d='M39 12v10h10' fill='none' stroke='%2399d98c' stroke-width='4'/%3E%3Cpath d='m25 36 5 5 10-12' fill='none' stroke='%232a9d68' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
   <style>
     :root {
-      --green-950:#0b2b26; --green-900:#123d35; --green-800:#185247;
-      --green-700:#246b58; --green-100:#dff3ea; --green-50:#f1faf6;
-      --ink:#17231f; --muted:#687872; --line:#d7e2dd; --surface:#fff;
-      --page:#eef3f1; --red:#b42318; --red-bg:#fff0ee;
-      --amber:#9a6700; --amber-bg:#fff6d8; --gray:#667085; --gray-bg:#f2f4f7;
+      --green-950:#0b2b26;
+      --green-900:#123d35;
+      --green-800:#185247;
+      --green-700:#246b58;
+      --green-50:#f1faf6;
+      --ink:#17231f;
+      --muted:#687872;
+      --line:#d7e2dd;
+      --surface:#fff;
+      --page:#eef3f1;
+      --red:#b42318;
+      --red-bg:#fff0ee;
+      --amber:#9a6700;
+      --amber-bg:#fff6d8;
+      --gray:#667085;
+      --gray-bg:#f2f4f7;
       --shadow:0 12px 34px rgba(18,61,53,.09);
     }
-    * { box-sizing:border-box; }
-    html { min-width:320px; font-size:15px; }
-    body { margin:0; min-height:100vh; background:var(--page); color:var(--ink); font-family:Inter,Segoe UI,Arial,sans-serif; font-size:1rem; }
-    button,input,select { font:inherit; }
-    .topbar { background:linear-gradient(115deg,var(--green-950),var(--green-800)); color:#fff; padding:22px clamp(18px,3vw,44px); box-shadow:0 6px 22px rgba(11,43,38,.18); }
-    .topbar-inner { max-width:1800px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:20px; }
-    h1 { margin:0; font-size:clamp(1.35rem,2.3vw,2rem); letter-spacing:.02em; }
-    .updated { color:#d8ebe4; font-size:.88rem; text-align:right; }
-    main { max-width:1800px; margin:0 auto; padding:22px clamp(12px,2.4vw,34px) 38px; }
-    .overview { display:grid; grid-template-columns:minmax(180px,230px) minmax(180px,230px) minmax(420px,1fr); gap:14px; margin-bottom:18px; align-items:stretch; }
-    .card { display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px 18px; text-align:center; box-shadow:var(--shadow); }
-    .card-label { width:100%; color:var(--muted); font-size:.82rem; font-weight:700; letter-spacing:.06em; text-align:center; text-transform:uppercase; }
-    .card-value { width:100%; margin-top:8px; color:var(--green-900); font-size:1.65rem; font-weight:800; text-align:center; }
-    .trozas-card { display:block; cursor:pointer; }
-    .trozas-card.risk { border-color:#e3a09a; background:var(--red-bg); }
-    .trozas-card.risk .card-value { color:var(--red); }
-    .trozas-card.safe { border-color:#9dd9bb; background:#effaf4; }
-    .trozas-card.safe .card-value { color:#087443; }
-    .trozas-card.active { outline:3px solid rgba(180,35,24,.18); }
-    .summary-card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:0; overflow:hidden; box-shadow:var(--shadow); }
-    .summary-title { padding:10px 14px; color:var(--green-900); font-size:.82rem; font-weight:800; letter-spacing:.05em; text-align:center; text-transform:uppercase; border-bottom:1px solid var(--line); }
-    .summary-table { width:100%; min-width:0; table-layout:fixed; border-collapse:collapse; }
-    .summary-table th { position:static; padding:7px 10px; background:#e8f0ed; color:var(--green-950); font-size:.74rem; cursor:default; }
-    .summary-table th:hover { background:#e8f0ed; }
-    .summary-table td { padding:6px 10px; font-size:.82rem; }
-    .summary-table th:first-child,.summary-table td:first-child { width:44%; text-align:left; font-weight:750; }
-    .summary-table th:nth-child(2),.summary-table td:nth-child(2),
-    .summary-table th:nth-child(3),.summary-table td:nth-child(3) { width:28%; text-align:center; }
-    .summary-warn { color:var(--amber); font-weight:850; }
-    .summary-bad { color:var(--red); font-weight:850; }
-    .summary-count { width:100%; min-width:38px; min-height:28px; border:1px solid transparent; border-radius:8px; background:rgba(255,255,255,.45); color:inherit; font-weight:850; cursor:pointer; }
-    .summary-count:hover,.summary-count:focus-visible { background:#fff; border-color:currentColor; outline:none; }
-    .summary-warn .summary-count.active { background:var(--amber-bg); border-color:var(--amber); box-shadow:0 0 0 2px rgba(154,103,0,.12); }
-    .summary-bad .summary-count.active { background:var(--red-bg); border-color:var(--red); box-shadow:0 0 0 2px rgba(180,35,24,.12); }
-    .summary-count:disabled { opacity:.55; cursor:default; border-color:transparent; background:transparent; }
-    .tabs { display:flex; gap:8px; padding:7px; background:#dfe9e5; border-radius:14px; overflow-x:auto; margin-bottom:16px; }
-    .tab { flex:1 0 170px; border:0; padding:12px 18px; border-radius:10px; color:#395049; background:transparent; font-weight:800; cursor:pointer; }
-    .tab.active { background:var(--surface); color:var(--green-900); box-shadow:0 4px 14px rgba(18,61,53,.12); }
-    .panel { background:var(--surface); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); overflow:hidden; }
-    .toolbar { display:grid; grid-template-columns:minmax(230px,2fr) repeat(2,minmax(170px,1fr)) auto; gap:12px; align-items:end; padding:16px; border-bottom:1px solid var(--line); }
-    label { display:block; color:var(--muted); font-size:.8rem; font-weight:700; margin:0 0 6px 2px; }
-    input,select { width:100%; height:44px; border:1px solid #bdcbc5; border-radius:10px; padding:0 12px; color:var(--ink); background:#fff; outline:none; }
-    input:focus,select:focus { border-color:var(--green-700); box-shadow:0 0 0 3px rgba(36,107,88,.13); }
-    .clear { height:44px; border:1px solid var(--line); border-radius:10px; padding:0 16px; background:#f7faf9; color:var(--green-900); font-weight:750; cursor:pointer; }
-    .resultbar { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 16px; color:var(--muted); font-size:.88rem; border-bottom:1px solid var(--line); }
-    .table-wrap { width:100%; overflow:auto; max-height:calc(100vh - 365px); min-height:310px; }
-    table { width:100%; border-collapse:separate; border-spacing:0; white-space:nowrap; }
-    .view-empresas { table-layout:fixed !important; width:100% !important; min-width:900px; }
+
+    * {
+      box-sizing:border-box;
+    }
+
+    html {
+      min-width:320px;
+      font-size:15px;
+    }
+
+    body {
+      margin:0;
+      min-height:100vh;
+      background:var(--page);
+      color:var(--ink);
+      font-family:Inter,Segoe UI,Arial,sans-serif;
+      font-size:1rem;
+    }
+
+    button,
+    input,
+    select {
+      font:inherit;
+    }
+
+    .topbar {
+      padding:22px clamp(18px,3vw,44px);
+      color:#fff;
+      background:linear-gradient(115deg,var(--green-950),var(--green-800));
+      box-shadow:0 6px 22px rgba(11,43,38,.18);
+    }
+
+    .topbar-inner {
+      max-width:1800px;
+      margin:auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
+
+    h1 {
+      margin:0;
+      font-size:clamp(1.35rem,2.3vw,2rem);
+      letter-spacing:.02em;
+    }
+
+    .subtitle {
+      margin-top:5px;
+      color:#d8ebe4;
+    }
+
+    .updated {
+      color:#d8ebe4;
+      font-size:.88rem;
+      text-align:right;
+    }
+
+    main {
+      max-width:1800px;
+      margin:0 auto;
+      padding:22px clamp(12px,2.4vw,34px) 38px;
+    }
+
+    .overview {
+      display:grid;
+      grid-template-columns:minmax(180px,230px) minmax(180px,230px) minmax(420px,1fr);
+      gap:14px;
+      margin-bottom:18px;
+      align-items:stretch;
+    }
+
+    .card {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:16px 18px;
+      text-align:center;
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:14px;
+      box-shadow:var(--shadow);
+    }
+
+    .card-label {
+      width:100%;
+      color:var(--muted);
+      font-size:.82rem;
+      font-weight:700;
+      letter-spacing:.06em;
+      text-align:center;
+      text-transform:uppercase;
+    }
+
+    .card-value {
+      width:100%;
+      margin-top:8px;
+      color:var(--green-900);
+      font-size:1.65rem;
+      font-weight:800;
+      text-align:center;
+    }
+
+    .trozas-card {
+      cursor:pointer;
+    }
+
+    .trozas-card.risk {
+      border-color:#e3a09a;
+      background:var(--red-bg);
+    }
+
+    .trozas-card.risk .card-value {
+      color:var(--red);
+    }
+
+    .trozas-card.safe {
+      border-color:#9dd9bb;
+      background:#effaf4;
+    }
+
+    .trozas-card.safe .card-value {
+      color:#087443;
+    }
+
+    .trozas-card.active {
+      outline:3px solid rgba(180,35,24,.18);
+    }
+
+    .summary-card {
+      padding:0;
+      overflow:hidden;
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:14px;
+      box-shadow:var(--shadow);
+    }
+
+    .summary-title {
+      padding:10px 14px;
+      color:var(--green-900);
+      font-size:.82rem;
+      font-weight:800;
+      letter-spacing:.05em;
+      text-align:center;
+      text-transform:uppercase;
+      border-bottom:1px solid var(--line);
+    }
+
+    .summary-table {
+      width:100%;
+      min-width:0;
+      table-layout:fixed;
+      border-collapse:collapse;
+    }
+
+    .summary-table th {
+      position:static;
+      padding:7px 10px;
+      color:var(--green-950);
+      font-size:.74rem;
+      background:#e8f0ed;
+      cursor:default;
+    }
+
+    .summary-table th:hover {
+      background:#e8f0ed;
+    }
+
+    .summary-table td {
+      padding:6px 10px;
+      font-size:.82rem;
+    }
+
+    .summary-table th:first-child,
+    .summary-table td:first-child {
+      width:44%;
+      text-align:left;
+      font-weight:750;
+    }
+
+    .summary-table th:nth-child(2),
+    .summary-table td:nth-child(2),
+    .summary-table th:nth-child(3),
+    .summary-table td:nth-child(3) {
+      width:28%;
+      text-align:center;
+    }
+
+    .summary-warn {
+      color:var(--amber);
+      font-weight:850;
+    }
+
+    .summary-bad {
+      color:var(--red);
+      font-weight:850;
+    }
+
+    .summary-count {
+      width:100%;
+      min-width:38px;
+      min-height:28px;
+      color:inherit;
+      font-weight:850;
+      background:rgba(255,255,255,.45);
+      border:1px solid transparent;
+      border-radius:8px;
+      cursor:pointer;
+    }
+
+    .summary-count:hover,
+    .summary-count:focus-visible {
+      background:#fff;
+      border-color:currentColor;
+      outline:none;
+    }
+
+    .summary-warn .summary-count.active {
+      background:var(--amber-bg);
+      border-color:var(--amber);
+      box-shadow:0 0 0 2px rgba(154,103,0,.12);
+    }
+
+    .summary-bad .summary-count.active {
+      background:var(--red-bg);
+      border-color:var(--red);
+      box-shadow:0 0 0 2px rgba(180,35,24,.12);
+    }
+
+    .summary-count:disabled {
+      opacity:.55;
+      cursor:default;
+      border-color:transparent;
+      background:transparent;
+    }
+
+    .tabs {
+      display:flex;
+      gap:8px;
+      padding:7px;
+      margin-bottom:16px;
+      overflow-x:auto;
+      background:#dfe9e5;
+      border-radius:14px;
+    }
+
+    .tab {
+      flex:1 0 170px;
+      padding:12px 18px;
+      color:#395049;
+      font-weight:800;
+      background:transparent;
+      border:0;
+      border-radius:10px;
+      cursor:pointer;
+    }
+
+    .tab.active {
+      color:var(--green-900);
+      background:var(--surface);
+      box-shadow:0 4px 14px rgba(18,61,53,.12);
+    }
+
+    .panel {
+      overflow:hidden;
+      background:var(--surface);
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+    }
+
+    .toolbar {
+      display:grid;
+      grid-template-columns:minmax(230px,2fr) repeat(2,minmax(170px,1fr)) auto;
+      gap:12px;
+      align-items:end;
+      padding:16px;
+      border-bottom:1px solid var(--line);
+    }
+
+    label {
+      display:block;
+      margin:0 0 6px 2px;
+      color:var(--muted);
+      font-size:.8rem;
+      font-weight:700;
+    }
+
+    input,
+    select {
+      width:100%;
+      height:44px;
+      padding:0 12px;
+      color:var(--ink);
+      background:#fff;
+      border:1px solid #bdcbc5;
+      border-radius:10px;
+      outline:none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color:var(--green-700);
+      box-shadow:0 0 0 3px rgba(36,107,88,.13);
+    }
+
+    .clear {
+      height:44px;
+      padding:0 16px;
+      color:var(--green-900);
+      font-weight:750;
+      background:#f7faf9;
+      border:1px solid var(--line);
+      border-radius:10px;
+      cursor:pointer;
+    }
+
+    .resultbar {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:12px 16px;
+      color:var(--muted);
+      font-size:.88rem;
+      border-bottom:1px solid var(--line);
+    }
+
+    .table-wrap {
+      width:100%;
+      min-height:310px;
+      max-height:calc(100vh - 365px);
+      overflow:auto;
+    }
+
+    table {
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      white-space:nowrap;
+    }
+
+    .view-empresas {
+      width:100% !important;
+      min-width:900px;
+      table-layout:fixed !important;
+    }
+
     .view-empresas th,
     .view-empresas td {
       width:16.6667% !important;
@@ -72,304 +385,1503 @@
       overflow:hidden;
       text-overflow:ellipsis;
     }
-    th { position:sticky; top:0; z-index:3; padding:9px 11px; background:var(--green-900); color:#fff; text-align:center; font-size:.78rem; letter-spacing:.035em; text-transform:uppercase; cursor:pointer; }
-    th:hover { background:var(--green-800); }
-    td { padding:7px 11px; border-bottom:1px solid #e7eeeb; font-size:.88rem; text-align:center; vertical-align:middle; }
-    .view-vehiculos th { font-size:.72rem; }
-    .view-vehiculos td { font-size:.82rem; }
-    tbody tr:hover td { background:var(--green-50); }
-    tbody tr:last-child td { border-bottom:0; }
-    .sticky-first { position:sticky; left:0; z-index:2; background:#fff; box-shadow:5px 0 10px rgba(18,61,53,.05); }
-    th.sticky-first { z-index:5; background:var(--green-900); }
-    tbody tr:hover .sticky-first { background:var(--green-50); }
-    .name { font-weight:750; color:var(--green-950); }
-    .secondary { color:var(--muted); font-size:.78rem; margin-top:3px; }
-    .status { display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:50%; font-size:.82rem; font-weight:900; line-height:1; }
-    .ok { color:#087443; background:#e3f6ec; }
-    .warn { color:var(--amber); background:var(--amber-bg); }
-    .bad { color:var(--red); background:var(--red-bg); }
-    .none { color:var(--gray); background:var(--gray-bg); }
-    .empty,.loading,.error { padding:60px 20px; text-align:center; color:var(--muted); }
-    .error { color:var(--red); }
-    @media (max-width:900px) {
-      .overview { grid-template-columns:1fr 1fr; }
-      .summary-card { grid-column:1 / -1; }
-      .toolbar { grid-template-columns:1fr 1fr; }
-      .table-wrap { max-height:none; }
+
+    th {
+      position:sticky;
+      top:0;
+      z-index:3;
+      padding:9px 11px;
+      color:#fff;
+      font-size:.78rem;
+      letter-spacing:.035em;
+      text-align:center;
+      text-transform:uppercase;
+      background:var(--green-900);
+      cursor:pointer;
     }
+
+    th:hover {
+      background:var(--green-800);
+    }
+
+    td {
+      padding:7px 11px;
+      font-size:.88rem;
+      text-align:center;
+      vertical-align:middle;
+      border-bottom:1px solid #e7eeeb;
+    }
+
+    .view-vehiculos th {
+      font-size:.72rem;
+    }
+
+    .view-vehiculos td {
+      font-size:.82rem;
+    }
+
+    tbody tr:hover td {
+      background:var(--green-50);
+    }
+
+    tbody tr:last-child td {
+      border-bottom:0;
+    }
+
+    .sticky-first {
+      position:sticky;
+      left:0;
+      z-index:2;
+      background:#fff;
+      box-shadow:5px 0 10px rgba(18,61,53,.05);
+    }
+
+    th.sticky-first {
+      z-index:5;
+      background:var(--green-900);
+    }
+
+    tbody tr:hover .sticky-first {
+      background:var(--green-50);
+    }
+
+    .name {
+      color:var(--green-950);
+      font-weight:750;
+    }
+
+    .secondary {
+      margin-top:3px;
+      color:var(--muted);
+      font-size:.78rem;
+    }
+
+    .status {
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:24px;
+      height:24px;
+      font-size:.82rem;
+      font-weight:900;
+      line-height:1;
+      border-radius:50%;
+      cursor:help;
+    }
+
+    .status[data-tooltip]::after {
+      content:attr(data-tooltip);
+      position:absolute;
+      left:50%;
+      bottom:calc(100% + 9px);
+      z-index:20;
+      min-width:max-content;
+      max-width:280px;
+      padding:7px 10px;
+      color:#fff;
+      font-size:.75rem;
+      font-weight:650;
+      line-height:1.25;
+      white-space:nowrap;
+      background:var(--green-950);
+      border-radius:7px;
+      box-shadow:0 5px 16px rgba(11,43,38,.24);
+      opacity:0;
+      pointer-events:none;
+      transform:translate(-50%,4px);
+      transition:opacity .15s ease,transform .15s ease;
+    }
+
+    .status[data-tooltip]::before {
+      content:"";
+      position:absolute;
+      left:50%;
+      bottom:calc(100% + 4px);
+      z-index:21;
+      border:5px solid transparent;
+      border-top-color:var(--green-950);
+      opacity:0;
+      pointer-events:none;
+      transform:translateX(-50%);
+      transition:opacity .15s ease;
+    }
+
+    .status[data-tooltip]:hover::after,
+    .status[data-tooltip]:hover::before,
+    .status[data-tooltip]:focus-visible::after,
+    .status[data-tooltip]:focus-visible::before {
+      opacity:1;
+    }
+
+    .status[data-tooltip]:hover::after,
+    .status[data-tooltip]:focus-visible::after {
+      transform:translate(-50%,0);
+    }
+
+    .status[data-tooltip]:focus-visible {
+      outline:2px solid var(--green-700);
+      outline-offset:2px;
+    }
+
+    .ok {
+      color:#087443;
+      background:#e3f6ec;
+    }
+
+    .warn {
+      color:var(--amber);
+      background:var(--amber-bg);
+    }
+
+    .bad {
+      color:var(--red);
+      background:var(--red-bg);
+    }
+
+    .none {
+      color:var(--gray);
+      background:var(--gray-bg);
+    }
+
+    .empty,
+    .loading,
+    .error {
+      padding:60px 20px;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    .error {
+      color:var(--red);
+    }
+
+    @media (max-width:900px) {
+      .overview {
+        grid-template-columns:1fr 1fr;
+      }
+
+      .summary-card {
+        grid-column:1 / -1;
+      }
+
+      .toolbar {
+        grid-template-columns:1fr 1fr;
+      }
+
+      .table-wrap {
+        max-height:none;
+      }
+    }
+
     @media (max-width:580px) {
-      .topbar-inner { align-items:flex-start; flex-direction:column; }
-      .updated { text-align:left; }
-      main { padding-top:14px; }
-      .overview { grid-template-columns:1fr 1fr; gap:9px; }
-      .card { padding:13px; }
-      .card-value { font-size:1.35rem; }
-      .toolbar { grid-template-columns:1fr; }
-      .clear { width:100%; }
+      .topbar-inner {
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .updated {
+        text-align:left;
+      }
+
+      main {
+        padding-top:14px;
+      }
+
+      .overview {
+        grid-template-columns:1fr 1fr;
+        gap:9px;
+      }
+
+      .card {
+        padding:13px;
+      }
+
+      .card-value {
+        font-size:1.35rem;
+      }
+
+      .toolbar {
+        grid-template-columns:1fr;
+      }
+
+      .clear {
+        width:100%;
+      }
     }
   </style>
 </head>
+
 <body>
   <header class="topbar">
     <div class="topbar-inner">
       <div>
         <h1>CONTROL DOCUMENTAL</h1>
-        <div style="margin-top:5px;color:#d8ebe4">Carga Camiones</div>
+        <div class="subtitle">Carga Camiones</div>
       </div>
-      <div class="updated" id="updated">Cargando información…</div>
+
+      <div class="updated" id="updated">
+        Cargando información…
+      </div>
     </div>
   </header>
 
   <main>
     <section class="overview" aria-label="Resumen">
-      <article class="card"><div class="card-label" id="totalLabel">Registros</div><div class="card-value" id="totalValue">—</div></article>
-      <button class="card trozas-card" id="trozasCard" type="button" title="Mostrar conductores de Las Acacias con documentos vencidos">
+      <article class="card">
+        <div class="card-label" id="totalLabel">Registros</div>
+        <div class="card-value" id="totalValue">—</div>
+      </article>
+
+      <button
+        class="card trozas-card"
+        id="trozasCard"
+        type="button"
+        title="Mostrar conductores de Las Acacias con documentos vencidos"
+      >
         <div class="card-label">TROZAS UPM</div>
         <div class="card-value" id="trozasValue">—</div>
       </button>
+
       <article class="summary-card">
         <div class="summary-title">Resumen documental</div>
+
         <table class="summary-table">
-          <thead><tr><th>Tipo documental</th><th>Por vencer</th><th>Vencidos</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Tipo documental</th>
+              <th>Por vencer</th>
+              <th>Vencidos</th>
+            </tr>
+          </thead>
+
           <tbody>
-            <tr><td>Empresas</td><td class="summary-warn"><button class="summary-count" id="summaryEmpresasWarn" data-summary-view="empresas" data-summary-status="POR VENCER" type="button">—</button></td><td class="summary-bad"><button class="summary-count" id="summaryEmpresasBad" data-summary-view="empresas" data-summary-status="VENCIDO" type="button">—</button></td></tr>
-            <tr><td>Vehículos</td><td class="summary-warn"><button class="summary-count" id="summaryVehiculosWarn" data-summary-view="vehiculos" data-summary-status="POR VENCER" type="button">—</button></td><td class="summary-bad"><button class="summary-count" id="summaryVehiculosBad" data-summary-view="vehiculos" data-summary-status="VENCIDO" type="button">—</button></td></tr>
-            <tr><td>Conductores</td><td class="summary-warn"><button class="summary-count" id="summaryConductoresWarn" data-summary-view="conductores" data-summary-status="POR VENCER" type="button">—</button></td><td class="summary-bad"><button class="summary-count" id="summaryConductoresBad" data-summary-view="conductores" data-summary-status="VENCIDO" type="button">—</button></td></tr>
+            <tr>
+              <td>Empresas</td>
+              <td class="summary-warn">
+                <button
+                  class="summary-count"
+                  id="summaryEmpresasWarn"
+                  data-summary-view="empresas"
+                  data-summary-status="POR VENCER"
+                  type="button"
+                >—</button>
+              </td>
+              <td class="summary-bad">
+                <button
+                  class="summary-count"
+                  id="summaryEmpresasBad"
+                  data-summary-view="empresas"
+                  data-summary-status="VENCIDO"
+                  type="button"
+                >—</button>
+              </td>
+            </tr>
+
+            <tr>
+              <td>Vehículos</td>
+              <td class="summary-warn">
+                <button
+                  class="summary-count"
+                  id="summaryVehiculosWarn"
+                  data-summary-view="vehiculos"
+                  data-summary-status="POR VENCER"
+                  type="button"
+                >—</button>
+              </td>
+              <td class="summary-bad">
+                <button
+                  class="summary-count"
+                  id="summaryVehiculosBad"
+                  data-summary-view="vehiculos"
+                  data-summary-status="VENCIDO"
+                  type="button"
+                >—</button>
+              </td>
+            </tr>
+
+            <tr>
+              <td>Conductores</td>
+              <td class="summary-warn">
+                <button
+                  class="summary-count"
+                  id="summaryConductoresWarn"
+                  data-summary-view="conductores"
+                  data-summary-status="POR VENCER"
+                  type="button"
+                >—</button>
+              </td>
+              <td class="summary-bad">
+                <button
+                  class="summary-count"
+                  id="summaryConductoresBad"
+                  data-summary-view="conductores"
+                  data-summary-status="VENCIDO"
+                  type="button"
+                >—</button>
+              </td>
+            </tr>
           </tbody>
         </table>
       </article>
     </section>
 
     <nav class="tabs" aria-label="Secciones">
-      <button class="tab active" data-view="empresas">EMPRESAS</button>
-      <button class="tab" data-view="vehiculos">VEHÍCULOS</button>
-      <button class="tab" data-view="conductores">CONDUCTORES</button>
+      <button class="tab active" data-view="empresas">
+        EMPRESAS
+      </button>
+
+      <button class="tab" data-view="vehiculos">
+        VEHÍCULOS
+      </button>
+
+      <button class="tab" data-view="conductores">
+        CONDUCTORES
+      </button>
     </nav>
 
     <section class="panel">
       <div class="toolbar">
-        <div><label for="search">BUSCAR</label><input id="search" type="search" placeholder="Empresa, matrícula o conductor…" autocomplete="off"></div>
-        <div><label for="companyFilter">EMPRESA</label><select id="companyFilter"><option value="">Todas</option></select></div>
-        <div><label for="statusFilter">ESTADO GENERAL</label><select id="statusFilter"><option value="">Todos</option></select></div>
-        <button class="clear" id="clearFilters" type="button">Limpiar</button>
+        <div>
+          <label for="search">BUSCAR</label>
+          <input
+            id="search"
+            type="search"
+            placeholder="Empresa, matrícula o conductor…"
+            autocomplete="off"
+          >
+        </div>
+
+        <div>
+          <label for="companyFilter">EMPRESA</label>
+          <select id="companyFilter">
+            <option value="">Todas</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="statusFilter">ESTADO GENERAL</label>
+          <select id="statusFilter">
+            <option value="">Todos</option>
+          </select>
+        </div>
+
+        <button class="clear" id="clearFilters" type="button">
+          Limpiar
+        </button>
       </div>
-      <div class="resultbar"><span id="resultCount">Cargando…</span><span>Haz clic en un encabezado para ordenar</span></div>
-      <div class="table-wrap" id="tableWrap"><div class="loading">Cargando datos documentales…</div></div>
+
+      <div class="resultbar">
+        <span id="resultCount">Cargando…</span>
+        <span>Haz clic en un encabezado para ordenar</span>
+      </div>
+
+      <div class="table-wrap" id="tableWrap">
+        <div class="loading">
+          Cargando datos documentales…
+        </div>
+      </div>
     </section>
   </main>
 
   <script>
-    const SOURCE = '/api/datos';
-    const state = { data:null, view:'empresas', sortKey:null, sortAsc:true, trozasOnly:false };
+    const SOURCE = "/api/datos";
+
+    const state = {
+      data: null,
+      view: "empresas",
+      sortKey: null,
+      sortAsc: true,
+      trozasOnly: false
+    };
 
     const configs = {
       empresas: {
-        label:'Empresas', company:r=>r.empresa_carga_camiones,
-        columns:[
-          ['empresa_carga_camiones','Empresa','name'],
-          ['estado_general','Estado general','status'],
-          ['estado_bps','BPS','doc','bps_date'],
-          ['estado_dgi','DGI','doc','dgi_date'],
-          ['estado_bse_accidentes','BSE accidentes','doc','bse_acc_date'],
-          ['estado_factura_bps','Factura BPS','doc','fact_bps_date']
+        label: "Empresas",
+        company: row => row.empresa_carga_camiones,
+        columns: [
+          [
+            "empresa_carga_camiones",
+            "Empresa",
+            "name"
+          ],
+          [
+            "estado_general",
+            "Estado general",
+            "status"
+          ],
+          [
+            "estado_bps",
+            "BPS",
+            "doc",
+            "bps_date"
+          ],
+          [
+            "estado_dgi",
+            "DGI",
+            "doc",
+            "dgi_date"
+          ],
+          [
+            "estado_bse_accidentes",
+            "BSE accidentes",
+            "doc",
+            "bse_acc_date"
+          ],
+          [
+            "estado_factura_bps",
+            "Factura BPS",
+            "doc",
+            "fact_bps_date"
+          ]
         ]
       },
+
       vehiculos: {
-        label:'Vehículos', company:r=>r.empresa,
-        columns:[
-          ['matricula_carga_camiones','Matrícula','name'],
-          ['estado_general','Estado general','status'],
-          ['tipo_unidad_carga','Unidad','text'],
-          ['empresa','Empresa','text'],
-          ['category','Categoría','text'],
-          ['vehicle_type','Tipo vehículo','text'],
-          ['estado_activo','Activo','status'],
-          ['estado_applus','APPLUS','doc','applus_date'],
-          ['estado_soa','SOA','doc','soa_date']
+        label: "Vehículos",
+        company: row => row.empresa,
+        columns: [
+          [
+            "matricula_carga_camiones",
+            "Matrícula",
+            "name"
+          ],
+          [
+            "estado_general",
+            "Estado general",
+            "status"
+          ],
+          [
+            "tipo_unidad_carga",
+            "Unidad",
+            "text"
+          ],
+          [
+            "empresa",
+            "Empresa",
+            "text"
+          ],
+          [
+            "category",
+            "Categoría",
+            "text"
+          ],
+          [
+            "vehicle_type",
+            "Tipo vehículo",
+            "text"
+          ],
+          [
+            "estado_activo",
+            "Activo",
+            "status"
+          ],
+          [
+            "estado_applus",
+            "APPLUS",
+            "doc",
+            "applus_date"
+          ],
+          [
+            "estado_soa",
+            "SOA",
+            "doc",
+            "soa_date"
+          ]
         ]
       },
+
       conductores: {
-        label:'Conductores', company:r=>r.empresa,
-        columns:[
-          ['conductor_carga_camiones','Conductor','name','ci_carga_camiones'],
-          ['estado_general','Estado general','status'],
-          ['empresa','Empresa','text'],
-          ['destino','Destino / Próximo destino','text'],
-          ['estado_driver_license','Libreta','doc','driver_license'],
-          ['estado_health_meat','Carné salud','doc','health_meat'],
-          ['estado_identity_card','Cédula','doc','identity_card'],
-          ['estado_psychotechnician','Psicotécnico','doc','psychotechnician'],
-          ['estado_upm','Curso UPM','doc','upm'],
-          ['estado_green_card','Tarjeta verde','doc','green_card'],
-          ['estado_fas_instructions','Instructivo FAS','status'],
-          ['estado_mtss','MTSS','status'],
-          ['estado_bps','BPS','status']
+        label: "Conductores",
+        company: row => row.empresa,
+        columns: [
+          [
+            "conductor_carga_camiones",
+            "Conductor",
+            "name",
+            "ci_carga_camiones"
+          ],
+          [
+            "estado_general",
+            "Estado general",
+            "status"
+          ],
+          [
+            "empresa",
+            "Empresa",
+            "text"
+          ],
+          [
+            "destino",
+            "Destino / Próximo destino",
+            "text"
+          ],
+          [
+            "estado_driver_license",
+            "Libreta",
+            "doc",
+            "driver_license"
+          ],
+          [
+            "estado_health_meat",
+            "Carné salud",
+            "doc",
+            "health_meat"
+          ],
+          [
+            "estado_identity_card",
+            "Cédula",
+            "doc",
+            "identity_card"
+          ],
+          [
+            "estado_psychotechnician",
+            "Psicotécnico",
+            "doc",
+            "psychotechnician"
+          ],
+          [
+            "estado_upm",
+            "Curso UPM",
+            "doc",
+            "upm"
+          ],
+          [
+            "estado_green_card",
+            "Tarjeta verde",
+            "doc",
+            "green_card"
+          ],
+          [
+            "estado_fas_instructions",
+            "Instructivo FAS",
+            "status"
+          ],
+          [
+            "estado_mtss",
+            "MTSS",
+            "status"
+          ],
+          [
+            "estado_bps",
+            "BPS",
+            "status"
+          ]
         ]
       }
     };
 
     const $ = id => document.getElementById(id);
-    const esc = value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
-    const normalize = value => String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase();
+
+    const esc = value =>
+      String(value ?? "").replace(
+        /[&<>'"]/g,
+        character => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          "'": "&#39;",
+          '"': "&quot;"
+        })[character]
+      );
+
+    const normalize = value =>
+      String(value ?? "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase();
+
     const prettyDate = value => {
-      if (!value) return '';
-      const [y,m,d] = String(value).slice(0,10).split('-');
-      return y && m && d ? `${d}/${m}/${y}` : value;
-    };
-    const statusClass = value => {
-      const s = normalize(value);
-      if (s === 'VIGENTE' || s === 'CUMPLE' || s === 'ACTIVO') return 'ok';
-      if (s === 'POR VENCER') return 'warn';
-      if (s === 'VENCIDO' || s === 'NO CUMPLE' || s === 'INACTIVO') return 'bad';
-      return 'warn';
-    };
-    const statusSymbol = value => {
-      const c = statusClass(value);
-      if (c === 'ok') return '✓';
-      if (c === 'warn') return '⚠';
-      if (c === 'bad') return '✕';
-      return '⚠';
-    };
-    const statusHtml = value => `<span class="status ${statusClass(value)}" title="${esc(value || 'SIN INFORMACION')}" aria-label="${esc(value || 'SIN INFORMACION')}">${statusSymbol(value)}</span>`;
-    const renderCell = (row,col) => {
-      const [key,,type,extra] = col, value=row[key];
-      if (type === 'status') return statusHtml(value);
-      if (type === 'doc') return statusHtml(value);
-      if (type === 'name') {
-        const esAcoplado=key==='matricula_carga_camiones' && normalize(row.tipo_unidad_carga)==='ACOPLADO';
-        const matriculaCamion=esAcoplado && row.matricula_camion ? ` / ${esc(row.matricula_camion)}` : '';
-        return `<div class="name">${esc(value || 'SIN INFORMACION')}${matriculaCamion}</div>${extra && row[extra] ? `<div class="secondary">${esc(row[extra])}</div>` : ''}`;
+      if (!value) {
+        return "";
       }
-      if (key === 'vehicle_type') {
-        const tipo = normalize(value);
-        if (tipo === 'TRAILER') return 'Acoplado';
-        if (tipo === 'TRUCK') return 'Camion';
-      }
-      return esc(value ?? '');
+
+      const parts = String(value)
+        .slice(0, 10)
+        .split("-");
+
+      const [year, month, day] = parts;
+
+      return year && month && day
+        ? `${day}/${month}/${year}`
+        : value;
     };
 
-    function currentRows() { return state.data?.[state.view] || []; }
+    /*
+      Calcula los días restantes sin aplicar cambios de zona horaria.
+
+      Ejemplos:
+      -1 = vencido ayer
+       0 = vence hoy
+       9 = vence dentro de 9 días
+      10 = vence dentro de 10 días
+    */
+    const daysUntil = value => {
+      if (!value) {
+        return null;
+      }
+
+      const match = String(value)
+        .slice(0, 10)
+        .match(/^(\d{4})-(\d{2})-(\d{2})$/);
+
+      if (!match) {
+        return null;
+      }
+
+      const expiration = Date.UTC(
+        Number(match[1]),
+        Number(match[2]) - 1,
+        Number(match[3])
+      );
+
+      const now = new Date();
+
+      const today = Date.UTC(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate()
+      );
+
+      return Math.round(
+        (expiration - today) / 86400000
+      );
+    };
+
+    /*
+      ESCALA DOCUMENTAL:
+
+      EMPRESAS:
+      - VIGENTE: 10 días o más
+      - POR VENCER: entre 0 y 9 días
+      - VENCIDO: menos de 0 días
+
+      VEHÍCULOS:
+      - VIGENTE: 10 días o más
+      - POR VENCER: entre 0 y 9 días
+      - VENCIDO: menos de 0 días
+
+      CONDUCTORES:
+      - VIGENTE: 20 días o más
+      - POR VENCER: entre 0 y 19 días
+      - VENCIDO: menos de 0 días
+    */
+    const documentStatus = (
+      expirationDate,
+      view = state.view
+    ) => {
+      const days = daysUntil(expirationDate);
+
+      if (days === null) {
+        return "SIN INFORMACION";
+      }
+
+      if (days < 0) {
+        return "VENCIDO";
+      }
+
+      const limit =
+        view === "conductores"
+          ? 20
+          : 10;
+
+      if (days < limit) {
+        return "POR VENCER";
+      }
+
+      return "VIGENTE";
+    };
+
+    const statusClass = value => {
+      const status = normalize(value);
+
+      if (
+        status === "VIGENTE" ||
+        status === "CUMPLE" ||
+        status === "ACTIVO"
+      ) {
+        return "ok";
+      }
+
+      if (
+        status === "VENCIDO" ||
+        status === "NO CUMPLE" ||
+        status === "INACTIVO"
+      ) {
+        return "bad";
+      }
+
+      return "warn";
+    };
+
+    const statusSymbol = value => {
+      const cssClass = statusClass(value);
+
+      if (cssClass === "ok") {
+        return "✓";
+      }
+
+      if (cssClass === "bad") {
+        return "✕";
+      }
+
+      return "⚠";
+    };
+
+    const statusHtml = (
+      value,
+      expirationDate = ""
+    ) => {
+      const status =
+        value || "SIN INFORMACION";
+
+      const tooltip = expirationDate
+        ? `${status} · Vence: ${prettyDate(expirationDate)}`
+        : status;
+
+      return `
+        <span
+          class="status ${statusClass(value)}"
+          data-tooltip="${esc(tooltip)}"
+          aria-label="${esc(tooltip)}"
+          tabindex="0"
+        >${statusSymbol(value)}</span>
+      `;
+    };
+
+    /*
+      Calcula el Estado general a partir de todas las columnas
+      documentales y de cumplimiento de cada registro.
+    */
+    const rowGeneralStatus = (
+      row,
+      view = state.view
+    ) => {
+      const config = configs[view];
+
+      const statuses = config.columns
+        .filter(column =>
+          column[0] !== "estado_general" &&
+          (
+            column[2] === "doc" ||
+            column[2] === "status"
+          )
+        )
+        .map(column => {
+          const field = column[0];
+          const type = column[2];
+          const dateField = column[3];
+
+          if (type === "doc") {
+            return documentStatus(
+              row[dateField],
+              view
+            );
+          }
+
+          return (
+            row[field] ||
+            "SIN INFORMACION"
+          );
+        });
+
+      if (
+        statuses.some(
+          status =>
+            statusClass(status) === "bad"
+        )
+      ) {
+        return "VENCIDO";
+      }
+
+      if (
+        statuses.some(
+          status =>
+            statusClass(status) === "warn"
+        )
+      ) {
+        return "POR VENCER";
+      }
+
+      return "VIGENTE";
+    };
+
+    const renderCell = (row, column) => {
+      const [
+        key,
+        label,
+        type,
+        extra
+      ] = column;
+
+      const value = row[key];
+
+      if (key === "estado_general") {
+        return statusHtml(
+          rowGeneralStatus(row)
+        );
+      }
+
+      if (type === "status") {
+        return statusHtml(value);
+      }
+
+      if (type === "doc") {
+        const calculatedStatus =
+          documentStatus(
+            row[extra],
+            state.view
+          );
+
+        return statusHtml(
+          calculatedStatus,
+          row[extra]
+        );
+      }
+
+      if (type === "name") {
+        const isTrailer =
+          key === "matricula_carga_camiones" &&
+          normalize(row.tipo_unidad_carga) ===
+            "ACOPLADO";
+
+        const truckPlate =
+          isTrailer && row.matricula_camion
+            ? ` / ${esc(row.matricula_camion)}`
+            : "";
+
+        const secondary =
+          extra && row[extra]
+            ? `
+              <div class="secondary">
+                ${esc(row[extra])}
+              </div>
+            `
+            : "";
+
+        return `
+          <div class="name">
+            ${esc(value || "SIN INFORMACION")}
+            ${truckPlate}
+          </div>
+          ${secondary}
+        `;
+      }
+
+      if (key === "vehicle_type") {
+        const vehicleType =
+          normalize(value);
+
+        if (vehicleType === "TRAILER") {
+          return "Acoplado";
+        }
+
+        if (vehicleType === "TRUCK") {
+          return "Camion";
+        }
+      }
+
+      return esc(value ?? "");
+    };
+
+    function currentRows() {
+      return (
+        state.data?.[state.view] ||
+        []
+      );
+    }
 
     function isTrozasRisk(row) {
-      const esLasAcacias=normalize(row.destino).includes('LAS ACACIAS');
-      const vencidos=[
-        row.estado_driver_license,
-        row.estado_health_meat,
-        row.estado_identity_card,
-        row.estado_psychotechnician
-      ].some(value=>normalize(value)==='VENCIDO');
-      return esLasAcacias && vencidos;
+      const isLasAcacias =
+        normalize(row.destino)
+          .includes("LAS ACACIAS");
+
+      const expired = [
+        documentStatus(
+          row.driver_license,
+          "conductores"
+        ),
+        documentStatus(
+          row.health_meat,
+          "conductores"
+        ),
+        documentStatus(
+          row.identity_card,
+          "conductores"
+        ),
+        documentStatus(
+          row.psychotechnician,
+          "conductores"
+        )
+      ].some(
+        value =>
+          normalize(value) === "VENCIDO"
+      );
+
+      return isLasAcacias && expired;
     }
 
     function fillFilters() {
-      const cfg=configs[state.view], rows=currentRows();
-      const companies=[...new Set(rows.map(cfg.company).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'es'));
-      $('companyFilter').innerHTML='<option value="">Todas</option>'+companies.map(v=>`<option>${esc(v)}</option>`).join('');
-      const statuses=[...new Set(rows.map(r=>r.estado_general).filter(Boolean))].sort();
-      $('statusFilter').innerHTML='<option value="">Todos</option>'+statuses.map(v=>`<option>${esc(v)}</option>`).join('');
+      const config =
+        configs[state.view];
+
+      const rows =
+        currentRows();
+
+      const companies = [
+        ...new Set(
+          rows
+            .map(config.company)
+            .filter(Boolean)
+        )
+      ].sort(
+        (first, second) =>
+          first.localeCompare(
+            second,
+            "es"
+          )
+      );
+
+      $("companyFilter").innerHTML =
+        '<option value="">Todas</option>' +
+        companies
+          .map(
+            company =>
+              `<option>${esc(company)}</option>`
+          )
+          .join("");
+
+      const statuses = [
+        ...new Set(
+          rows
+            .map(row =>
+              rowGeneralStatus(
+                row,
+                state.view
+              )
+            )
+            .filter(Boolean)
+        )
+      ].sort();
+
+      $("statusFilter").innerHTML =
+        '<option value="">Todos</option>' +
+        statuses
+          .map(
+            status =>
+              `<option>${esc(status)}</option>`
+          )
+          .join("");
     }
 
     function filteredRows() {
-      const cfg=configs[state.view], q=normalize($('search').value), company=$('companyFilter').value, status=$('statusFilter').value;
-      let rows=currentRows().filter(row => {
-        const matchesText=!q || normalize(Object.values(row).join(' ')).includes(q);
-        const matchesTrozas=state.view!=='conductores' || !state.trozasOnly || isTrozasRisk(row);
-        return matchesText && (!company || cfg.company(row)===company) && (!status || row.estado_general===status) && matchesTrozas;
-      });
-      if (state.sortKey) rows.sort((a,b)=>{
-        const av=normalize(a[state.sortKey]), bv=normalize(b[state.sortKey]);
-        return av.localeCompare(bv,'es',{numeric:true})*(state.sortAsc?1:-1);
-      });
+      const config =
+        configs[state.view];
+
+      const searchValue =
+        normalize(
+          $("search").value
+        );
+
+      const selectedCompany =
+        $("companyFilter").value;
+
+      const selectedStatus =
+        $("statusFilter").value;
+
+      let rows =
+        currentRows().filter(row => {
+          const matchesText =
+            !searchValue ||
+            normalize(
+              Object.values(row).join(" ")
+            ).includes(searchValue);
+
+          const matchesCompany =
+            !selectedCompany ||
+            config.company(row) ===
+              selectedCompany;
+
+          const matchesStatus =
+            !selectedStatus ||
+            rowGeneralStatus(
+              row,
+              state.view
+            ) === selectedStatus;
+
+          const matchesTrozas =
+            state.view !== "conductores" ||
+            !state.trozasOnly ||
+            isTrozasRisk(row);
+
+          return (
+            matchesText &&
+            matchesCompany &&
+            matchesStatus &&
+            matchesTrozas
+          );
+        });
+
+      if (state.sortKey) {
+        rows.sort((first, second) => {
+          let firstValue;
+          let secondValue;
+
+          if (
+            state.sortKey ===
+            "estado_general"
+          ) {
+            firstValue =
+              rowGeneralStatus(
+                first,
+                state.view
+              );
+
+            secondValue =
+              rowGeneralStatus(
+                second,
+                state.view
+              );
+          } else {
+            firstValue =
+              first[state.sortKey];
+
+            secondValue =
+              second[state.sortKey];
+          }
+
+          const comparison =
+            normalize(firstValue)
+              .localeCompare(
+                normalize(secondValue),
+                "es",
+                {
+                  numeric:true
+                }
+              );
+
+          return comparison *
+            (state.sortAsc ? 1 : -1);
+        });
+      }
+
       return rows;
     }
 
+    function setSummaryCount(
+      id,
+      section,
+      status
+    ) {
+      const rows =
+        state.data?.[section] || [];
+
+      const count =
+        rows.filter(row =>
+          normalize(
+            rowGeneralStatus(
+              row,
+              section
+            )
+          ) === status
+        ).length;
+
+      const button = $(id);
+
+      button.textContent =
+        count.toLocaleString("es-UY");
+
+      button.disabled =
+        count === 0;
+    }
+
     function updateCards(rows) {
-      const all=currentRows();
-      $('totalLabel').textContent=configs[state.view].label;
-      $('totalValue').textContent=all.length.toLocaleString('es-UY');
-      const setSummaryCount=(id,section,status)=>{
-        const count=(state.data?.[section] || []).filter(r=>normalize(r.estado_general)===status).length;
-        const button=$(id);
-        button.textContent=count.toLocaleString('es-UY');
-        button.disabled=count===0;
-      };
-      setSummaryCount('summaryEmpresasWarn','empresas','POR VENCER');
-      setSummaryCount('summaryEmpresasBad','empresas','VENCIDO');
-      setSummaryCount('summaryVehiculosWarn','vehiculos','POR VENCER');
-      setSummaryCount('summaryVehiculosBad','vehiculos','VENCIDO');
-      setSummaryCount('summaryConductoresWarn','conductores','POR VENCER');
-      setSummaryCount('summaryConductoresBad','conductores','VENCIDO');
-      const trozasCard=$('trozasCard');
-      const trozasRows=state.data?.conductores || [];
-      const trozasCount=trozasRows.filter(isTrozasRisk).length;
-      trozasCard.classList.toggle('risk',trozasCount>0);
-      trozasCard.classList.toggle('safe',trozasCount===0);
-      trozasCard.classList.toggle('active',state.view==='conductores' && state.trozasOnly);
-      $('trozasValue').textContent=trozasCount.toLocaleString('es-UY');
-      document.querySelectorAll('.summary-count').forEach(button=>{
-        const selected=button.dataset.summaryView===state.view && button.dataset.summaryStatus===$('statusFilter').value;
-        button.classList.toggle('active',selected);
-        button.setAttribute('aria-pressed',selected ? 'true' : 'false');
-      });
-      $('resultCount').textContent=`Mostrando ${rows.length.toLocaleString('es-UY')} de ${all.length.toLocaleString('es-UY')} registros`;
+      const allRows =
+        currentRows();
+
+      $("totalLabel").textContent =
+        configs[state.view].label;
+
+      $("totalValue").textContent =
+        allRows.length
+          .toLocaleString("es-UY");
+
+      setSummaryCount(
+        "summaryEmpresasWarn",
+        "empresas",
+        "POR VENCER"
+      );
+
+      setSummaryCount(
+        "summaryEmpresasBad",
+        "empresas",
+        "VENCIDO"
+      );
+
+      setSummaryCount(
+        "summaryVehiculosWarn",
+        "vehiculos",
+        "POR VENCER"
+      );
+
+      setSummaryCount(
+        "summaryVehiculosBad",
+        "vehiculos",
+        "VENCIDO"
+      );
+
+      setSummaryCount(
+        "summaryConductoresWarn",
+        "conductores",
+        "POR VENCER"
+      );
+
+      setSummaryCount(
+        "summaryConductoresBad",
+        "conductores",
+        "VENCIDO"
+      );
+
+      const trozasCard =
+        $("trozasCard");
+
+      const driverRows =
+        state.data?.conductores || [];
+
+      const trozasCount =
+        driverRows.filter(
+          isTrozasRisk
+        ).length;
+
+      trozasCard.classList.toggle(
+        "risk",
+        trozasCount > 0
+      );
+
+      trozasCard.classList.toggle(
+        "safe",
+        trozasCount === 0
+      );
+
+      trozasCard.classList.toggle(
+        "active",
+        state.view === "conductores" &&
+        state.trozasOnly
+      );
+
+      $("trozasValue").textContent =
+        trozasCount
+          .toLocaleString("es-UY");
+
+      document
+        .querySelectorAll(
+          ".summary-count"
+        )
+        .forEach(button => {
+          const selected =
+            button.dataset.summaryView ===
+              state.view &&
+            button.dataset.summaryStatus ===
+              $("statusFilter").value;
+
+          button.classList.toggle(
+            "active",
+            selected
+          );
+
+          button.setAttribute(
+            "aria-pressed",
+            selected ? "true" : "false"
+          );
+        });
+
+      $("resultCount").textContent =
+        `Mostrando ${
+          rows.length.toLocaleString("es-UY")
+        } de ${
+          allRows.length.toLocaleString("es-UY")
+        } registros`;
     }
 
     function render() {
-      const cfg=configs[state.view], rows=filteredRows();
+      const config =
+        configs[state.view];
+
+      const rows =
+        filteredRows();
+
       updateCards(rows);
-      if (!rows.length) { $('tableWrap').innerHTML='<div class="empty">No hay registros para los filtros seleccionados.</div>'; return; }
-      const head=cfg.columns.map((c,i)=>`<th class="${i===0?'sticky-first':''}" data-key="${c[0]}">${esc(c[1])}${state.sortKey===c[0]?(state.sortAsc?' ↑':' ↓'):''}</th>`).join('');
-      const body=rows.map(row=>`<tr>${cfg.columns.map((c,i)=>`<td class="${i===0?'sticky-first':''}">${renderCell(row,c)}</td>`).join('')}</tr>`).join('');
-      const companyColumns=state.view==='empresas'
-        ? '<colgroup><col width="16.6667%"><col width="16.6667%"><col width="16.6667%"><col width="16.6667%"><col width="16.6667%"><col width="16.6667%"></colgroup>'
-        : '';
-      $('tableWrap').innerHTML=`<table class="view-${state.view}">${companyColumns}<thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
-      document.querySelectorAll('th[data-key]').forEach(th=>th.addEventListener('click',()=>{
-        const key=th.dataset.key;
-        if(state.sortKey===key) state.sortAsc=!state.sortAsc; else { state.sortKey=key; state.sortAsc=true; }
-        render();
-      }));
+
+      if (!rows.length) {
+        $("tableWrap").innerHTML = `
+          <div class="empty">
+            No hay registros para los filtros seleccionados.
+          </div>
+        `;
+
+        return;
+      }
+
+      const tableHead =
+        config.columns
+          .map((column, index) => {
+            const key = column[0];
+            const label = column[1];
+
+            const sortIndicator =
+              state.sortKey === key
+                ? (
+                    state.sortAsc
+                      ? " ↑"
+                      : " ↓"
+                  )
+                : "";
+
+            return `
+              <th
+                class="${
+                  index === 0
+                    ? "sticky-first"
+                    : ""
+                }"
+                data-key="${esc(key)}"
+              >
+                ${esc(label)}
+                ${sortIndicator}
+              </th>
+            `;
+          })
+          .join("");
+
+      const tableBody =
+        rows
+          .map(row => {
+            const cells =
+              config.columns
+                .map((column, index) => `
+                  <td class="${
+                    index === 0
+                      ? "sticky-first"
+                      : ""
+                  }">
+                    ${renderCell(
+                      row,
+                      column
+                    )}
+                  </td>
+                `)
+                .join("");
+
+            return `<tr>${cells}</tr>`;
+          })
+          .join("");
+
+      const companyColumns =
+        state.view === "empresas"
+          ? `
+            <colgroup>
+              <col width="16.6667%">
+              <col width="16.6667%">
+              <col width="16.6667%">
+              <col width="16.6667%">
+              <col width="16.6667%">
+              <col width="16.6667%">
+            </colgroup>
+          `
+          : "";
+
+      $("tableWrap").innerHTML = `
+        <table class="view-${state.view}">
+          ${companyColumns}
+
+          <thead>
+            <tr>
+              ${tableHead}
+            </tr>
+          </thead>
+
+          <tbody>
+            ${tableBody}
+          </tbody>
+        </table>
+      `;
+
+      document
+        .querySelectorAll(
+          "th[data-key]"
+        )
+        .forEach(header => {
+          header.addEventListener(
+            "click",
+            () => {
+              const key =
+                header.dataset.key;
+
+              if (
+                state.sortKey === key
+              ) {
+                state.sortAsc =
+                  !state.sortAsc;
+              } else {
+                state.sortKey = key;
+                state.sortAsc = true;
+              }
+
+              render();
+            }
+          );
+        });
     }
 
     function switchView(view) {
-      state.view=view; state.sortKey=null; state.sortAsc=true; state.trozasOnly=false;
-      document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
-      $('search').value=''; $('companyFilter').value=''; $('statusFilter').value='';
-      fillFilters(); render();
+      state.view = view;
+      state.sortKey = null;
+      state.sortAsc = true;
+      state.trozasOnly = false;
+
+      document
+        .querySelectorAll(".tab")
+        .forEach(button => {
+          button.classList.toggle(
+            "active",
+            button.dataset.view === view
+          );
+        });
+
+      $("search").value = "";
+      $("companyFilter").value = "";
+      $("statusFilter").value = "";
+
+      fillFilters();
+      render();
     }
 
     async function load() {
       try {
-        const response=await fetch(`${SOURCE}?v=${Date.now()}`,{cache:'no-store'});
-        if(!response.ok) throw new Error(`HTTP ${response.status}`);
-        state.data=await response.json();
-        $('updated').textContent=`Actualizado: ${state.data.actualizado || 'sin fecha'}`;
-        fillFilters(); render();
-      } catch(error) {
-        $('updated').textContent='No se pudo cargar la información';
-        $('tableWrap').innerHTML=`<div class="error"><strong>No se pudieron cargar los datos</strong><br>Comprueba la configuración del Secret DROPBOX_JSON_URL.</div>`;
+        const response =
+          await fetch(
+            `${SOURCE}?v=${Date.now()}`,
+            {
+              cache:"no-store"
+            }
+          );
+
+        if (!response.ok) {
+          throw new Error(
+            `HTTP ${response.status}`
+          );
+        }
+
+        state.data =
+          await response.json();
+
+        $("updated").textContent =
+          `Actualizado: ${
+            state.data.actualizado ||
+            "sin fecha"
+          }`;
+
+        fillFilters();
+        render();
+
+      } catch (error) {
+        $("updated").textContent =
+          "No se pudo cargar la información";
+
+        $("tableWrap").innerHTML = `
+          <div class="error">
+            <strong>
+              No se pudieron cargar los datos
+            </strong>
+            <br>
+            Comprueba la configuración del Secret
+            DROPBOX_JSON_URL.
+          </div>
+        `;
+
         console.error(error);
       }
     }
 
-    document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchView(b.dataset.view)));
-    document.querySelectorAll('.summary-count').forEach(button=>button.addEventListener('click',()=>{
-      switchView(button.dataset.summaryView);
-      $('statusFilter').value=button.dataset.summaryStatus;
-      state.trozasOnly=false;
-      render();
-    }));
-    ['search','companyFilter','statusFilter'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',render));
-    $('clearFilters').addEventListener('click',()=>{ $('search').value=''; $('companyFilter').value=''; $('statusFilter').value=''; state.trozasOnly=false; render(); });
-    $('trozasCard').addEventListener('click',()=>{
-      if(state.view!=='conductores') {
-        switchView('conductores');
-        state.trozasOnly=true;
-      } else {
-        state.trozasOnly=!state.trozasOnly;
+    document
+      .querySelectorAll(".tab")
+      .forEach(button => {
+        button.addEventListener(
+          "click",
+          () => {
+            switchView(
+              button.dataset.view
+            );
+          }
+        );
+      });
+
+    document
+      .querySelectorAll(
+        ".summary-count"
+      )
+      .forEach(button => {
+        button.addEventListener(
+          "click",
+          () => {
+            switchView(
+              button.dataset.summaryView
+            );
+
+            $("statusFilter").value =
+              button.dataset.summaryStatus;
+
+            state.trozasOnly = false;
+
+            render();
+          }
+        );
+      });
+
+    $("search").addEventListener(
+      "input",
+      render
+    );
+
+    $("companyFilter").addEventListener(
+      "change",
+      render
+    );
+
+    $("statusFilter").addEventListener(
+      "change",
+      render
+    );
+
+    $("clearFilters").addEventListener(
+      "click",
+      () => {
+        $("search").value = "";
+        $("companyFilter").value = "";
+        $("statusFilter").value = "";
+        state.trozasOnly = false;
+
+        render();
       }
-      render();
-    });
+    );
+
+    $("trozasCard").addEventListener(
+      "click",
+      () => {
+        if (
+          state.view !== "conductores"
+        ) {
+          switchView("conductores");
+          state.trozasOnly = true;
+        } else {
+          state.trozasOnly =
+            !state.trozasOnly;
+        }
+
+        render();
+      }
+    );
+
     load();
   </script>
 </body>
