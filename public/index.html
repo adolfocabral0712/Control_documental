@@ -6,31 +6,17 @@
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#123d35">
   <title>Control documental</title>
-
   <style>
     :root {
-      --green-950:#0b2b26;
-      --green-900:#123d35;
-      --green-800:#185247;
-      --green-700:#246b58;
-      --green-50:#f1faf6;
-      --ink:#17231f;
-      --muted:#687872;
-      --line:#d7e2dd;
-      --surface:#fff;
-      --page:#eef3f1;
-      --red:#b42318;
-      --red-bg:#fff0ee;
-      --amber:#9a6700;
-      --amber-bg:#fff6d8;
-      --gray:#667085;
-      --gray-bg:#f2f4f7;
-      --shadow:0 12px 34px rgba(18,61,53,.09);
+      --green-950:#0b2b26; --green-900:#123d35; --green-800:#185247;
+      --green-700:#246b58; --green-50:#f1faf6;
+      --ink:#17231f; --muted:#687872; --line:#d7e2dd; --surface:#fff;
+      --page:#eef3f1; --red:#b42318; --red-bg:#fff0ee;
+      --amber:#9a6700; --amber-bg:#fff6d8; --gray:#667085;
+      --gray-bg:#f2f4f7; --shadow:0 12px 34px rgba(18,61,53,.09);
     }
 
-    * {
-      box-sizing:border-box;
-    }
+    * { box-sizing:border-box; }
 
     html {
       min-width:320px;
@@ -46,16 +32,12 @@
       font-size:1rem;
     }
 
-    button,
-    input,
-    select {
-      font:inherit;
-    }
+    button,input,select { font:inherit; }
 
     .topbar {
       padding:22px clamp(18px,3vw,44px);
-      color:#fff;
       background:linear-gradient(115deg,var(--green-950),var(--green-800));
+      color:#fff;
       box-shadow:0 6px 22px rgba(11,43,38,.18);
     }
 
@@ -131,27 +113,21 @@
       text-align:center;
     }
 
-    .trozas-card {
-      cursor:pointer;
-    }
+    .trozas-card { cursor:pointer; }
 
     .trozas-card.risk {
       border-color:#e3a09a;
       background:var(--red-bg);
     }
 
-    .trozas-card.risk .card-value {
-      color:var(--red);
-    }
+    .trozas-card.risk .card-value { color:var(--red); }
 
     .trozas-card.safe {
       border-color:#9dd9bb;
       background:#effaf4;
     }
 
-    .trozas-card.safe .card-value {
-      color:#087443;
-    }
+    .trozas-card.safe .card-value { color:#087443; }
 
     .trozas-card.active {
       outline:3px solid rgba(180,35,24,.18);
@@ -187,15 +163,13 @@
     .summary-table th {
       position:static;
       padding:7px 10px;
+      background:#e8f0ed;
       color:var(--green-950);
       font-size:.74rem;
-      background:#e8f0ed;
       cursor:default;
     }
 
-    .summary-table th:hover {
-      background:#e8f0ed;
-    }
+    .summary-table th:hover { background:#e8f0ed; }
 
     .summary-table td {
       padding:6px 10px;
@@ -231,11 +205,11 @@
       width:100%;
       min-width:38px;
       min-height:28px;
-      color:inherit;
-      font-weight:850;
-      background:rgba(255,255,255,.45);
       border:1px solid transparent;
       border-radius:8px;
+      background:rgba(255,255,255,.45);
+      color:inherit;
+      font-weight:850;
       cursor:pointer;
     }
 
@@ -278,11 +252,11 @@
     .tab {
       flex:1 0 170px;
       padding:12px 18px;
-      color:#395049;
-      font-weight:800;
-      background:transparent;
       border:0;
       border-radius:10px;
+      color:#395049;
+      background:transparent;
+      font-weight:800;
       cursor:pointer;
     }
 
@@ -317,8 +291,7 @@
       font-weight:700;
     }
 
-    input,
-    select {
+    input,select {
       width:100%;
       height:44px;
       padding:0 12px;
@@ -329,8 +302,7 @@
       outline:none;
     }
 
-    input:focus,
-    select:focus {
+    input:focus,select:focus {
       border-color:var(--green-700);
       box-shadow:0 0 0 3px rgba(36,107,88,.13);
     }
@@ -338,11 +310,11 @@
     .clear {
       height:44px;
       padding:0 16px;
-      color:var(--green-900);
-      font-weight:750;
-      background:#f7faf9;
       border:1px solid var(--line);
       border-radius:10px;
+      background:#f7faf9;
+      color:var(--green-900);
+      font-weight:750;
       cursor:pointer;
     }
 
@@ -391,42 +363,30 @@
       top:0;
       z-index:3;
       padding:9px 11px;
+      background:var(--green-900);
       color:#fff;
+      text-align:center;
       font-size:.78rem;
       letter-spacing:.035em;
-      text-align:center;
       text-transform:uppercase;
-      background:var(--green-900);
       cursor:pointer;
     }
 
-    th:hover {
-      background:var(--green-800);
-    }
+    th:hover { background:var(--green-800); }
 
     td {
       padding:7px 11px;
+      border-bottom:1px solid #e7eeeb;
       font-size:.88rem;
       text-align:center;
       vertical-align:middle;
-      border-bottom:1px solid #e7eeeb;
     }
 
-    .view-vehiculos th {
-      font-size:.72rem;
-    }
+    .view-vehiculos th { font-size:.72rem; }
+    .view-vehiculos td { font-size:.82rem; }
 
-    .view-vehiculos td {
-      font-size:.82rem;
-    }
-
-    tbody tr:hover td {
-      background:var(--green-50);
-    }
-
-    tbody tr:last-child td {
-      border-bottom:0;
-    }
+    tbody tr:hover td { background:var(--green-50); }
+    tbody tr:last-child td { border-bottom:0; }
 
     .sticky-first {
       position:sticky;
@@ -441,9 +401,7 @@
       background:var(--green-900);
     }
 
-    tbody tr:hover .sticky-first {
-      background:var(--green-50);
-    }
+    tbody tr:hover .sticky-first { background:var(--green-50); }
 
     .name {
       color:var(--green-950);
@@ -463,10 +421,10 @@
       justify-content:center;
       width:24px;
       height:24px;
+      border-radius:50%;
       font-size:.82rem;
       font-weight:900;
       line-height:1;
-      border-radius:50%;
       cursor:help;
     }
 
@@ -479,13 +437,13 @@
       min-width:max-content;
       max-width:280px;
       padding:7px 10px;
+      border-radius:7px;
+      background:var(--green-950);
       color:#fff;
       font-size:.75rem;
       font-weight:650;
       line-height:1.25;
       white-space:nowrap;
-      background:var(--green-950);
-      border-radius:7px;
       box-shadow:0 5px 16px rgba(11,43,38,.24);
       opacity:0;
       pointer-events:none;
@@ -544,34 +502,19 @@
       background:var(--gray-bg);
     }
 
-    .empty,
-    .loading,
-    .error {
+    .empty,.loading,.error {
       padding:60px 20px;
-      color:var(--muted);
       text-align:center;
+      color:var(--muted);
     }
 
-    .error {
-      color:var(--red);
-    }
+    .error { color:var(--red); }
 
     @media (max-width:900px) {
-      .overview {
-        grid-template-columns:1fr 1fr;
-      }
-
-      .summary-card {
-        grid-column:1 / -1;
-      }
-
-      .toolbar {
-        grid-template-columns:1fr 1fr;
-      }
-
-      .table-wrap {
-        max-height:none;
-      }
+      .overview { grid-template-columns:1fr 1fr; }
+      .summary-card { grid-column:1 / -1; }
+      .toolbar { grid-template-columns:1fr 1fr; }
+      .table-wrap { max-height:none; }
     }
 
     @media (max-width:580px) {
@@ -580,34 +523,18 @@
         flex-direction:column;
       }
 
-      .updated {
-        text-align:left;
-      }
-
-      main {
-        padding-top:14px;
-      }
+      .updated { text-align:left; }
+      main { padding-top:14px; }
 
       .overview {
         grid-template-columns:1fr 1fr;
         gap:9px;
       }
 
-      .card {
-        padding:13px;
-      }
-
-      .card-value {
-        font-size:1.35rem;
-      }
-
-      .toolbar {
-        grid-template-columns:1fr;
-      }
-
-      .clear {
-        width:100%;
-      }
+      .card { padding:13px; }
+      .card-value { font-size:1.35rem; }
+      .toolbar { grid-template-columns:1fr; }
+      .clear { width:100%; }
     }
   </style>
 </head>
@@ -658,6 +585,7 @@
           <tbody>
             <tr>
               <td>Empresas</td>
+
               <td class="summary-warn">
                 <button
                   class="summary-count"
@@ -667,6 +595,7 @@
                   type="button"
                 >—</button>
               </td>
+
               <td class="summary-bad">
                 <button
                   class="summary-count"
@@ -680,6 +609,7 @@
 
             <tr>
               <td>Vehículos</td>
+
               <td class="summary-warn">
                 <button
                   class="summary-count"
@@ -689,6 +619,7 @@
                   type="button"
                 >—</button>
               </td>
+
               <td class="summary-bad">
                 <button
                   class="summary-count"
@@ -702,6 +633,7 @@
 
             <tr>
               <td>Conductores</td>
+
               <td class="summary-warn">
                 <button
                   class="summary-count"
@@ -711,6 +643,7 @@
                   type="button"
                 >—</button>
               </td>
+
               <td class="summary-bad">
                 <button
                   class="summary-count"
@@ -777,9 +710,7 @@
       </div>
 
       <div class="table-wrap" id="tableWrap">
-        <div class="loading">
-          Cargando datos documentales…
-        </div>
+        <div class="loading">Cargando datos documentales…</div>
       </div>
     </section>
   </main>
@@ -788,185 +719,60 @@
     const SOURCE = "/api/datos";
 
     const state = {
-      data: null,
-      view: "empresas",
-      sortKey: null,
-      sortAsc: true,
-      trozasOnly: false
+      data:null,
+      view:"empresas",
+      sortKey:null,
+      sortAsc:true,
+      trozasOnly:false
     };
 
     const configs = {
-      empresas: {
-        label: "Empresas",
-        company: row => row.empresa_carga_camiones,
-        columns: [
-          [
-            "empresa_carga_camiones",
-            "Empresa",
-            "name"
-          ],
-          [
-            "estado_general",
-            "Estado general",
-            "status"
-          ],
-          [
-            "estado_bps",
-            "BPS",
-            "doc",
-            "bps_date"
-          ],
-          [
-            "estado_dgi",
-            "DGI",
-            "doc",
-            "dgi_date"
-          ],
-          [
-            "estado_bse_accidentes",
-            "BSE accidentes",
-            "doc",
-            "bse_acc_date"
-          ],
-          [
-            "estado_factura_bps",
-            "Factura BPS",
-            "doc",
-            "fact_bps_date"
-          ]
+      empresas:{
+        label:"Empresas",
+        company:row => row.empresa_carga_camiones,
+        columns:[
+          ["empresa_carga_camiones","Empresa","name"],
+          ["estado_general","Estado general","status"],
+          ["estado_bps","BPS","doc","bps_date"],
+          ["estado_dgi","DGI","doc","dgi_date"],
+          ["estado_bse_accidentes","BSE accidentes","doc","bse_acc_date"],
+          ["estado_factura_bps","Factura BPS","doc","fact_bps_date"]
         ]
       },
 
-      vehiculos: {
-        label: "Vehículos",
-        company: row => row.empresa,
-        columns: [
-          [
-            "matricula_carga_camiones",
-            "Matrícula",
-            "name"
-          ],
-          [
-            "estado_general",
-            "Estado general",
-            "status"
-          ],
-          [
-            "tipo_unidad_carga",
-            "Unidad",
-            "text"
-          ],
-          [
-            "empresa",
-            "Empresa",
-            "text"
-          ],
-          [
-            "category",
-            "Categoría",
-            "text"
-          ],
-          [
-            "vehicle_type",
-            "Tipo vehículo",
-            "text"
-          ],
-          [
-            "estado_activo",
-            "Activo",
-            "status"
-          ],
-          [
-            "estado_applus",
-            "APPLUS",
-            "doc",
-            "applus_date"
-          ],
-          [
-            "estado_soa",
-            "SOA",
-            "doc",
-            "soa_date"
-          ]
+      vehiculos:{
+        label:"Vehículos",
+        company:row => row.empresa,
+        columns:[
+          ["matricula_carga_camiones","Matrícula","name"],
+          ["estado_general","Estado general","status"],
+          ["tipo_unidad_carga","Unidad","text"],
+          ["empresa","Empresa","text"],
+          ["category","Categoría","text"],
+          ["vehicle_type","Tipo vehículo","text"],
+          ["estado_activo","Activo","status"],
+          ["estado_applus","APPLUS","doc","applus_date"],
+          ["estado_soa","SOA","doc","soa_date"]
         ]
       },
 
-      conductores: {
-        label: "Conductores",
-        company: row => row.empresa,
-        columns: [
-          [
-            "conductor_carga_camiones",
-            "Conductor",
-            "name",
-            "ci_carga_camiones"
-          ],
-          [
-            "estado_general",
-            "Estado general",
-            "status"
-          ],
-          [
-            "empresa",
-            "Empresa",
-            "text"
-          ],
-          [
-            "destino",
-            "Destino / Próximo destino",
-            "text"
-          ],
-          [
-            "estado_driver_license",
-            "Libreta",
-            "doc",
-            "driver_license"
-          ],
-          [
-            "estado_health_meat",
-            "Carné salud",
-            "doc",
-            "health_meat"
-          ],
-          [
-            "estado_identity_card",
-            "Cédula",
-            "doc",
-            "identity_card"
-          ],
-          [
-            "estado_psychotechnician",
-            "Psicotécnico",
-            "doc",
-            "psychotechnician"
-          ],
-          [
-            "estado_upm",
-            "Curso UPM",
-            "doc",
-            "upm"
-          ],
-          [
-            "estado_green_card",
-            "Tarjeta verde",
-            "doc",
-            "green_card"
-          ],
-          [
-            "estado_fas_instructions",
-            "Instructivo FAS",
-            "status"
-          ],
-          [
-            "estado_mtss",
-            "MTSS",
-            "status"
-          ],
-          [
-            "estado_bps",
-            "BPS",
-            "status"
-          ]
+      conductores:{
+        label:"Conductores",
+        company:row => row.empresa,
+        columns:[
+          ["conductor_carga_camiones","Conductor","name","ci_carga_camiones"],
+          ["estado_general","Estado general","status"],
+          ["empresa","Empresa","text"],
+          ["destino","Destino / Próximo destino","text"],
+          ["estado_driver_license","Libreta","doc","driver_license"],
+          ["estado_health_meat","Carné salud","doc","health_meat"],
+          ["estado_identity_card","Cédula","doc","identity_card"],
+          ["estado_psychotechnician","Psicotécnico","doc","psychotechnician"],
+          ["estado_upm","Curso UPM","doc","upm"],
+          ["estado_green_card","Tarjeta verde","doc","green_card"],
+          ["estado_fas_instructions","Instructivo FAS","status"],
+          ["estado_mtss","MTSS","status"],
+          ["estado_bps","BPS","status"]
         ]
       }
     };
@@ -977,57 +783,42 @@
       String(value ?? "").replace(
         /[&<>'"]/g,
         character => ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          "'": "&#39;",
-          '"': "&quot;"
+          "&":"&amp;",
+          "<":"&lt;",
+          ">":"&gt;",
+          "'":"&#39;",
+          '"':"&quot;"
         })[character]
       );
 
     const normalize = value =>
       String(value ?? "")
         .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[\u0300-\u036f]/g,"")
         .toUpperCase();
 
     const prettyDate = value => {
-      if (!value) {
-        return "";
-      }
+      if (!value) return "";
 
-      const parts = String(value)
-        .slice(0, 10)
-        .split("-");
-
-      const [year, month, day] = parts;
+      const [year,month,day] =
+        String(value)
+          .slice(0,10)
+          .split("-");
 
       return year && month && day
         ? `${day}/${month}/${year}`
         : value;
     };
 
-    /*
-      Calcula los días restantes sin aplicar cambios de zona horaria.
-
-      Ejemplos:
-      -1 = vencido ayer
-       0 = vence hoy
-       9 = vence dentro de 9 días
-      10 = vence dentro de 10 días
-    */
     const daysUntil = value => {
-      if (!value) {
-        return null;
-      }
+      if (!value) return null;
 
-      const match = String(value)
-        .slice(0, 10)
-        .match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      const match =
+        String(value)
+          .slice(0,10)
+          .match(/^(\d{4})-(\d{2})-(\d{2})$/);
 
-      if (!match) {
-        return null;
-      }
+      if (!match) return null;
 
       const expiration = Date.UTC(
         Number(match[1]),
@@ -1049,28 +840,22 @@
     };
 
     /*
-      ESCALA DOCUMENTAL:
-
-      EMPRESAS:
-      - VIGENTE: 10 días o más
-      - POR VENCER: entre 0 y 9 días
-      - VENCIDO: menos de 0 días
-
-      VEHÍCULOS:
-      - VIGENTE: 10 días o más
-      - POR VENCER: entre 0 y 9 días
-      - VENCIDO: menos de 0 días
+      EMPRESAS Y VEHÍCULOS:
+      VIGENTE: 10 días o más.
+      POR VENCER: entre 0 y 9 días.
+      VENCIDO: menos de 0 días.
 
       CONDUCTORES:
-      - VIGENTE: 20 días o más
-      - POR VENCER: entre 0 y 19 días
-      - VENCIDO: menos de 0 días
+      VIGENTE: 20 días o más.
+      POR VENCER: entre 0 y 19 días.
+      VENCIDO: menos de 0 días.
     */
     const documentStatus = (
       expirationDate,
       view = state.view
     ) => {
-      const days = daysUntil(expirationDate);
+      const days =
+        daysUntil(expirationDate);
 
       if (days === null) {
         return "SIN INFORMACION";
@@ -1085,15 +870,14 @@
           ? 20
           : 10;
 
-      if (days < limit) {
-        return "POR VENCER";
-      }
-
-      return "VIGENTE";
+      return days < limit
+        ? "POR VENCER"
+        : "VIGENTE";
     };
 
     const statusClass = value => {
-      const status = normalize(value);
+      const status =
+        normalize(value);
 
       if (
         status === "VIGENTE" ||
@@ -1115,19 +899,22 @@
     };
 
     const statusSymbol = value => {
-      const cssClass = statusClass(value);
+      const cssClass =
+        statusClass(value);
 
-      if (cssClass === "ok") {
-        return "✓";
-      }
-
-      if (cssClass === "bad") {
-        return "✕";
-      }
+      if (cssClass === "ok") return "✓";
+      if (cssClass === "bad") return "✕";
 
       return "⚠";
     };
 
+    /*
+      Si existe una fecha en el JSON, el tooltip muestra
+      solamente la fecha de vencimiento.
+
+      Ejemplo:
+      Vencimiento: 21/12/2026
+    */
     const statusHtml = (
       value,
       expirationDate = ""
@@ -1135,55 +922,55 @@
       const status =
         value || "SIN INFORMACION";
 
-      const tooltip = expirationDate
-        ? `${status} · Vence: ${prettyDate(expirationDate)}`
-        : status;
+      const tooltip =
+        expirationDate
+          ? `Vencimiento: ${prettyDate(expirationDate)}`
+          : status;
 
       return `
         <span
           class="status ${statusClass(value)}"
           data-tooltip="${esc(tooltip)}"
+          title="${esc(tooltip)}"
           aria-label="${esc(tooltip)}"
           tabindex="0"
         >${statusSymbol(value)}</span>
       `;
     };
 
-    /*
-      Calcula el Estado general a partir de todas las columnas
-      documentales y de cumplimiento de cada registro.
-    */
     const rowGeneralStatus = (
       row,
       view = state.view
     ) => {
-      const config = configs[view];
+      const config =
+        configs[view];
 
-      const statuses = config.columns
-        .filter(column =>
-          column[0] !== "estado_general" &&
-          (
-            column[2] === "doc" ||
-            column[2] === "status"
+      const statuses =
+        config.columns
+          .filter(column =>
+            column[0] !== "estado_general" &&
+            (
+              column[2] === "doc" ||
+              column[2] === "status"
+            )
           )
-        )
-        .map(column => {
-          const field = column[0];
-          const type = column[2];
-          const dateField = column[3];
+          .map(column => {
+            const field = column[0];
+            const type = column[2];
+            const dateField = column[3];
 
-          if (type === "doc") {
-            return documentStatus(
-              row[dateField],
-              view
+            if (type === "doc") {
+              return documentStatus(
+                row[dateField],
+                view
+              );
+            }
+
+            return (
+              row[field] ||
+              "SIN INFORMACION"
             );
-          }
-
-          return (
-            row[field] ||
-            "SIN INFORMACION"
-          );
-        });
+          });
 
       if (
         statuses.some(
@@ -1206,15 +993,12 @@
       return "VIGENTE";
     };
 
-    const renderCell = (row, column) => {
-      const [
-        key,
-        label,
-        type,
-        extra
-      ] = column;
+    const renderCell = (row,column) => {
+      const [key,,type,extra] =
+        column;
 
-      const value = row[key];
+      const value =
+        row[key];
 
       if (key === "estado_general") {
         return statusHtml(
@@ -1335,7 +1119,7 @@
             .filter(Boolean)
         )
       ].sort(
-        (first, second) =>
+        (first,second) =>
           first.localeCompare(
             second,
             "es"
@@ -1423,7 +1207,7 @@
         });
 
       if (state.sortKey) {
-        rows.sort((first, second) => {
+        rows.sort((first,second) => {
           let firstValue;
           let secondValue;
 
@@ -1455,9 +1239,7 @@
               .localeCompare(
                 normalize(secondValue),
                 "es",
-                {
-                  numeric:true
-                }
+                { numeric:true }
               );
 
           return comparison *
@@ -1474,7 +1256,8 @@
       status
     ) {
       const rows =
-        state.data?.[section] || [];
+        state.data?.[section] ||
+        [];
 
       const count =
         rows.filter(row =>
@@ -1546,7 +1329,8 @@
         $("trozasCard");
 
       const driverRows =
-        state.data?.conductores || [];
+        state.data?.conductores ||
+        [];
 
       const trozasCount =
         driverRows.filter(
@@ -1591,7 +1375,9 @@
 
           button.setAttribute(
             "aria-pressed",
-            selected ? "true" : "false"
+            selected
+              ? "true"
+              : "false"
           );
         });
 
@@ -1624,9 +1410,12 @@
 
       const tableHead =
         config.columns
-          .map((column, index) => {
-            const key = column[0];
-            const label = column[1];
+          .map((column,index) => {
+            const key =
+              column[0];
+
+            const label =
+              column[1];
 
             const sortIndicator =
               state.sortKey === key
@@ -1658,7 +1447,7 @@
           .map(row => {
             const cells =
               config.columns
-                .map((column, index) => `
+                .map((column,index) => `
                   <td class="${
                     index === 0
                       ? "sticky-first"
@@ -1723,8 +1512,11 @@
                 state.sortAsc =
                   !state.sortAsc;
               } else {
-                state.sortKey = key;
-                state.sortAsc = true;
+                state.sortKey =
+                  key;
+
+                state.sortAsc =
+                  true;
               }
 
               render();
@@ -1831,7 +1623,8 @@
             $("statusFilter").value =
               button.dataset.summaryStatus;
 
-            state.trozasOnly = false;
+            state.trozasOnly =
+              false;
 
             render();
           }
